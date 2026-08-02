@@ -1,0 +1,176 @@
+import type { ReactNode } from "react";
+import type { LucideIcon } from "lucide-react";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
+
+export function KpiCard({
+  label,
+  value,
+  delta,
+  icon: Icon,
+  hint,
+}: {
+  label: string;
+  value: string | number;
+  delta?: string;
+  icon?: LucideIcon;
+  hint?: string;
+}) {
+  const positive = delta?.startsWith("+");
+  return (
+    <div className="panel p-4">
+      <div className="flex items-start justify-between gap-3">
+        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
+        {Icon ? <Icon className="h-4 w-4 text-primary" /> : null}
+      </div>
+      <p className="numeric mt-3 text-2xl font-semibold text-foreground">{value}</p>
+      <div className="mt-1 flex items-center gap-2">
+        {delta ? (
+          <span className={cn("text-xs font-medium", positive ? "text-success" : "text-destructive")}>
+            {delta}
+          </span>
+        ) : null}
+        {hint ? <span className="text-xs text-muted-foreground">{hint}</span> : null}
+      </div>
+    </div>
+  );
+}
+
+const TONES: Record<string, string> = {
+  success: "bg-success/15 text-success",
+  warning: "bg-warning/15 text-warning",
+  danger: "bg-destructive/15 text-destructive",
+  info: "bg-info/15 text-info",
+  neutral: "bg-muted text-muted-foreground",
+  primary: "bg-primary/15 text-primary",
+};
+
+export type Tone = keyof typeof TONES;
+
+export function toneForStatus(status: string): Tone {
+  const value = status.toLowerCase();
+  if (
+    ["active", "indexed", "pass", "published", "resolved", "connected", "success", "ready", "positive", "replied", "qualified", "tracking"].some(
+      (s) => value.includes(s),
+    )
+  )
+    return "success";
+  if (["warn", "pending", "review", "scheduled", "paused", "in_progress", "draft", "generating", "rendering", "medium", "unread"].some((s) => value.includes(s)))
+    return "warning";
+  if (["fail", "critical", "high", "toxic", "open", "error", "lost", "negative", "escalated", "blocked", "not_indexed", "excluded"].some((s) => value.includes(s)))
+    return "danger";
+  if (["info", "low", "new", "discovered"].some((s) => value.includes(s))) return "info";
+  return "neutral";
+}
+
+export function StatusPill({ value, tone }: { value: string; tone?: Tone }) {
+  const resolved = tone ?? toneForStatus(value);
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium capitalize",
+        TONES[resolved],
+      )}
+    >
+      {value.replace(/[_-]/g, " ")}
+    </span>
+  );
+}
+
+export function Panel({
+  title,
+  description,
+  actions,
+  children,
+  className,
+}: {
+  title?: string;
+  description?: string;
+  actions?: ReactNode;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <Card className={cn("panel gap-0 border-border py-0", className)}>
+      {title ? (
+        <CardHeader className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4">
+          <div>
+            <CardTitle className="text-base font-semibold">{title}</CardTitle>
+            {description ? (
+              <p className="mt-0.5 text-sm text-muted-foreground">{description}</p>
+            ) : null}
+          </div>
+          {actions}
+        </CardHeader>
+      ) : null}
+      <CardContent className="px-5 py-4">{children}</CardContent>
+    </Card>
+  );
+}
+
+export function LoadingRows({ rows = 5 }: { rows?: number }) {
+  return (
+    <div className="space-y-2">
+      {Array.from({ length: rows }).map((_, i) => (
+        <Skeleton key={i} className="h-10 w-full" />
+      ))}
+    </div>
+  );
+}
+
+export function EmptyState({ message }: { message: string }) {
+  return (
+    <div className="rounded-lg border border-dashed border-border px-6 py-10 text-center text-sm text-muted-foreground">
+      {message}
+    </div>
+  );
+}
+
+export function QueryBoundary<T>({
+  query,
+  children,
+  empty = "Nothing here yet.",
+}: {
+  query: { data?: T[]; isLoading: boolean; error: unknown };
+  children: (rows: T[]) => ReactNode;
+  empty?: string;
+}) {
+  if (query.isLoading) return <LoadingRows />;
+  if (query.error)
+    return (
+      <div className="rounded-lg border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+        {(query.error as Error).message}
+      </div>
+    );
+  const rows = query.data ?? [];
+  if (rows.length === 0) return <EmptyState message={empty} />;
+  return <>{children(rows)}</>;
+}
+
+export const nf = new Intl.NumberFormat("en-US");
+export const cf = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+});
+
+export function formatDate(value?: string | null) {
+  if (!value) return "—";
+  return new Date(value).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+export function formatDateTime(value?: string | null) {
+  if (!value) return "—";
+  return new Date(value).toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
