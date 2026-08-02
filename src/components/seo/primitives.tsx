@@ -14,9 +14,9 @@ export function KpiCard({
 }: {
   label: string;
   value: string | number;
-  delta?: string;
-  icon?: LucideIcon;
-  hint?: string;
+  delta?: string | undefined;
+  icon?: LucideIcon | undefined;
+  hint?: string | undefined;
 }) {
   const positive = delta?.startsWith("+");
   return (
@@ -86,11 +86,11 @@ export function Panel({
   children,
   className,
 }: {
-  title?: string;
-  description?: string;
-  actions?: ReactNode;
+  title?: string | undefined;
+  description?: string | undefined;
+  actions?: ReactNode | undefined;
   children: ReactNode;
-  className?: string;
+  className?: string | undefined;
 }) {
   return (
     <Card className={cn("panel gap-0 border-border py-0", className)}>
@@ -133,7 +133,7 @@ export function QueryBoundary<T>({
   children,
   empty = "Nothing here yet.",
 }: {
-  query: { data?: T[]; isLoading: boolean; error: unknown };
+  query: { data?: T[] | undefined; isLoading: boolean; error: unknown };
   children: (rows: T[]) => ReactNode;
   empty?: string;
 }) {
