@@ -17,7 +17,8 @@ export async function listRows<T extends SeoTable>(
   table: T,
   options: ListOptions = {},
 ): Promise<Row<T>[]> {
-  let query = supabase.from(table).select("*");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let query: any = (supabase as any).from(table).select("*");
   for (const filter of options.filters ?? []) {
     query = query.eq(filter.column, filter.value);
   }
