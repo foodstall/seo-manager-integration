@@ -65,7 +65,7 @@ export function toneForStatus(status: string): Tone {
   return "neutral";
 }
 
-export function StatusPill({ value, tone }: { value: string; tone?: Tone }) {
+export function StatusPill({ value, tone }: { value: string; tone?: Tone | undefined }) {
   const resolved = tone ?? toneForStatus(value);
   return (
     <span
