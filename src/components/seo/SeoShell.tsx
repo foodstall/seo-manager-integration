@@ -3,7 +3,6 @@ import {
   Activity,
   AlertTriangle,
   BarChart3,
-  Bot,
   Calendar,
   Code2,
   FileCode,
@@ -210,8 +209,4 @@ export function SeoShell({
       </div>
     </div>
   );
-}
-
-export function Bot_(props: { className?: string }) {
-  return <Bot {...props} />;
 }
