@@ -17,6 +17,7 @@ import { Route as AuditRouteImport } from './routes/audit'
 import { Route as BacklinksRouteImport } from './routes/backlinks'
 import { Route as BehaviorRouteImport } from './routes/behavior'
 import { Route as CompetitorsRouteImport } from './routes/competitors'
+import { Route as ContentRouteImport } from './routes/content'
 import { Route as EmailRouteImport } from './routes/email'
 import { Route as FlowsRouteImport } from './routes/flows'
 import { Route as InboxRouteImport } from './routes/inbox'
@@ -72,6 +73,11 @@ const BehaviorRoute = BehaviorRouteImport.update({
 const CompetitorsRoute = CompetitorsRouteImport.update({
   id: '/competitors',
   path: '/competitors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContentRoute = ContentRouteImport.update({
+  id: '/content',
+  path: '/content',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EmailRoute = EmailRouteImport.update({
@@ -164,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/backlinks': typeof BacklinksRoute
   '/behavior': typeof BehaviorRoute
   '/competitors': typeof CompetitorsRoute
+  '/content': typeof ContentRoute
   '/email': typeof EmailRoute
   '/flows': typeof FlowsRoute
   '/inbox': typeof InboxRoute
@@ -190,6 +197,7 @@ export interface FileRoutesByTo {
   '/backlinks': typeof BacklinksRoute
   '/behavior': typeof BehaviorRoute
   '/competitors': typeof CompetitorsRoute
+  '/content': typeof ContentRoute
   '/email': typeof EmailRoute
   '/flows': typeof FlowsRoute
   '/inbox': typeof InboxRoute
@@ -217,6 +225,7 @@ export interface FileRoutesById {
   '/backlinks': typeof BacklinksRoute
   '/behavior': typeof BehaviorRoute
   '/competitors': typeof CompetitorsRoute
+  '/content': typeof ContentRoute
   '/email': typeof EmailRoute
   '/flows': typeof FlowsRoute
   '/inbox': typeof InboxRoute
@@ -245,6 +254,7 @@ export interface FileRouteTypes {
     | '/backlinks'
     | '/behavior'
     | '/competitors'
+    | '/content'
     | '/email'
     | '/flows'
     | '/inbox'
@@ -271,6 +281,7 @@ export interface FileRouteTypes {
     | '/backlinks'
     | '/behavior'
     | '/competitors'
+    | '/content'
     | '/email'
     | '/flows'
     | '/inbox'
@@ -297,6 +308,7 @@ export interface FileRouteTypes {
     | '/backlinks'
     | '/behavior'
     | '/competitors'
+    | '/content'
     | '/email'
     | '/flows'
     | '/inbox'
@@ -324,6 +336,7 @@ export interface RootRouteChildren {
   BacklinksRoute: typeof BacklinksRoute
   BehaviorRoute: typeof BehaviorRoute
   CompetitorsRoute: typeof CompetitorsRoute
+  ContentRoute: typeof ContentRoute
   EmailRoute: typeof EmailRoute
   FlowsRoute: typeof FlowsRoute
   InboxRoute: typeof InboxRoute
@@ -398,6 +411,13 @@ declare module '@tanstack/react-router' {
       path: '/competitors'
       fullPath: '/competitors'
       preLoaderRoute: typeof CompetitorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/content': {
+      id: '/content'
+      path: '/content'
+      fullPath: '/content'
+      preLoaderRoute: typeof ContentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/email': {
@@ -524,6 +544,7 @@ const rootRouteChildren: RootRouteChildren = {
   BacklinksRoute: BacklinksRoute,
   BehaviorRoute: BehaviorRoute,
   CompetitorsRoute: CompetitorsRoute,
+  ContentRoute: ContentRoute,
   EmailRoute: EmailRoute,
   FlowsRoute: FlowsRoute,
   InboxRoute: InboxRoute,
