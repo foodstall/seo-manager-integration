@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuditRouteImport } from './routes/audit'
 import { Route as IndexingRouteImport } from './routes/indexing'
 import { Route as IssuesRouteImport } from './routes/issues'
 import { Route as KeywordsRouteImport } from './routes/keywords'
@@ -21,6 +22,11 @@ import { Route as TechnicalRouteImport } from './routes/technical'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditRoute = AuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexingRoute = IndexingRouteImport.update({
@@ -61,6 +67,7 @@ const TechnicalRoute = TechnicalRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/audit': typeof AuditRoute
   '/indexing': typeof IndexingRoute
   '/issues': typeof IssuesRoute
   '/keywords': typeof KeywordsRoute
@@ -71,6 +78,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/audit': typeof AuditRoute
   '/indexing': typeof IndexingRoute
   '/issues': typeof IssuesRoute
   '/keywords': typeof KeywordsRoute
@@ -82,6 +90,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/audit': typeof AuditRoute
   '/indexing': typeof IndexingRoute
   '/issues': typeof IssuesRoute
   '/keywords': typeof KeywordsRoute
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/audit'
     | '/indexing'
     | '/issues'
     | '/keywords'
@@ -104,6 +114,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/audit'
     | '/indexing'
     | '/issues'
     | '/keywords'
@@ -114,6 +125,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/audit'
     | '/indexing'
     | '/issues'
     | '/keywords'
@@ -125,6 +137,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuditRoute: typeof AuditRoute
   IndexingRoute: typeof IndexingRoute
   IssuesRoute: typeof IssuesRoute
   KeywordsRoute: typeof KeywordsRoute
@@ -141,6 +154,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/audit': {
+      id: '/audit'
+      path: '/audit'
+      fullPath: '/audit'
+      preLoaderRoute: typeof AuditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/indexing': {
@@ -197,6 +217,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuditRoute: AuditRoute,
   IndexingRoute: IndexingRoute,
   IssuesRoute: IssuesRoute,
   KeywordsRoute: KeywordsRoute,
