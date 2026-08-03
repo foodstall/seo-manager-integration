@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as KeywordsRouteImport } from './routes/keywords'
+import { Route as MetaRulesRouteImport } from './routes/meta-rules'
 import { Route as PagesRouteImport } from './routes/pages'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const KeywordsRoute = KeywordsRouteImport.update({
   path: '/keywords',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MetaRulesRoute = MetaRulesRouteImport.update({
+  id: '/meta-rules',
+  path: '/meta-rules',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PagesRoute = PagesRouteImport.update({
   id: '/pages',
   path: '/pages',
@@ -32,30 +38,34 @@ const PagesRoute = PagesRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/keywords': typeof KeywordsRoute
+  '/meta-rules': typeof MetaRulesRoute
   '/pages': typeof PagesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/keywords': typeof KeywordsRoute
+  '/meta-rules': typeof MetaRulesRoute
   '/pages': typeof PagesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/keywords': typeof KeywordsRoute
+  '/meta-rules': typeof MetaRulesRoute
   '/pages': typeof PagesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/keywords' | '/pages'
+  fullPaths: '/' | '/keywords' | '/meta-rules' | '/pages'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/keywords' | '/pages'
-  id: '__root__' | '/' | '/keywords' | '/pages'
+  to: '/' | '/keywords' | '/meta-rules' | '/pages'
+  id: '__root__' | '/' | '/keywords' | '/meta-rules' | '/pages'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   KeywordsRoute: typeof KeywordsRoute
+  MetaRulesRoute: typeof MetaRulesRoute
   PagesRoute: typeof PagesRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KeywordsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/meta-rules': {
+      id: '/meta-rules'
+      path: '/meta-rules'
+      fullPath: '/meta-rules'
+      preLoaderRoute: typeof MetaRulesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pages': {
       id: '/pages'
       path: '/pages'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   KeywordsRoute: KeywordsRoute,
+  MetaRulesRoute: MetaRulesRoute,
   PagesRoute: PagesRoute,
 }
 export const routeTree = rootRouteImport
