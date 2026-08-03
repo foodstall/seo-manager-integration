@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as KeywordsRouteImport } from './routes/keywords'
 import { Route as PagesRouteImport } from './routes/pages'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KeywordsRoute = KeywordsRouteImport.update({
+  id: '/keywords',
+  path: '/keywords',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PagesRoute = PagesRouteImport.update({
@@ -25,27 +31,31 @@ const PagesRoute = PagesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/keywords': typeof KeywordsRoute
   '/pages': typeof PagesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/keywords': typeof KeywordsRoute
   '/pages': typeof PagesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/keywords': typeof KeywordsRoute
   '/pages': typeof PagesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/pages'
+  fullPaths: '/' | '/keywords' | '/pages'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/pages'
-  id: '__root__' | '/' | '/pages'
+  to: '/' | '/keywords' | '/pages'
+  id: '__root__' | '/' | '/keywords' | '/pages'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  KeywordsRoute: typeof KeywordsRoute
   PagesRoute: typeof PagesRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/keywords': {
+      id: '/keywords'
+      path: '/keywords'
+      fullPath: '/keywords'
+      preLoaderRoute: typeof KeywordsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pages': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  KeywordsRoute: KeywordsRoute,
   PagesRoute: PagesRoute,
 }
 export const routeTree = rootRouteImport
