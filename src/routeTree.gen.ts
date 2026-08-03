@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as IndexingRouteImport } from './routes/indexing'
+import { Route as IssuesRouteImport } from './routes/issues'
 import { Route as KeywordsRouteImport } from './routes/keywords'
 import { Route as MetaRulesRouteImport } from './routes/meta-rules'
 import { Route as PagesRouteImport } from './routes/pages'
@@ -25,6 +26,11 @@ const IndexRoute = IndexRouteImport.update({
 const IndexingRoute = IndexingRouteImport.update({
   id: '/indexing',
   path: '/indexing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IssuesRoute = IssuesRouteImport.update({
+  id: '/issues',
+  path: '/issues',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KeywordsRoute = KeywordsRouteImport.update({
@@ -56,6 +62,7 @@ const TechnicalRoute = TechnicalRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/indexing': typeof IndexingRoute
+  '/issues': typeof IssuesRoute
   '/keywords': typeof KeywordsRoute
   '/meta-rules': typeof MetaRulesRoute
   '/pages': typeof PagesRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/indexing': typeof IndexingRoute
+  '/issues': typeof IssuesRoute
   '/keywords': typeof KeywordsRoute
   '/meta-rules': typeof MetaRulesRoute
   '/pages': typeof PagesRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/indexing': typeof IndexingRoute
+  '/issues': typeof IssuesRoute
   '/keywords': typeof KeywordsRoute
   '/meta-rules': typeof MetaRulesRoute
   '/pages': typeof PagesRoute
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/indexing'
+    | '/issues'
     | '/keywords'
     | '/meta-rules'
     | '/pages'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/indexing'
+    | '/issues'
     | '/keywords'
     | '/meta-rules'
     | '/pages'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/indexing'
+    | '/issues'
     | '/keywords'
     | '/meta-rules'
     | '/pages'
@@ -114,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   IndexingRoute: typeof IndexingRoute
+  IssuesRoute: typeof IssuesRoute
   KeywordsRoute: typeof KeywordsRoute
   MetaRulesRoute: typeof MetaRulesRoute
   PagesRoute: typeof PagesRoute
@@ -135,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/indexing'
       fullPath: '/indexing'
       preLoaderRoute: typeof IndexingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/issues': {
+      id: '/issues'
+      path: '/issues'
+      fullPath: '/issues'
+      preLoaderRoute: typeof IssuesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/keywords': {
@@ -178,6 +198,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   IndexingRoute: IndexingRoute,
+  IssuesRoute: IssuesRoute,
   KeywordsRoute: KeywordsRoute,
   MetaRulesRoute: MetaRulesRoute,
   PagesRoute: PagesRoute,
