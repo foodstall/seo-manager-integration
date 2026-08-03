@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AiAssistantRouteImport } from './routes/ai-assistant'
 import { Route as AuditRouteImport } from './routes/audit'
+import { Route as BacklinksRouteImport } from './routes/backlinks'
 import { Route as CompetitorsRouteImport } from './routes/competitors'
 import { Route as IndexingRouteImport } from './routes/indexing'
 import { Route as IssuesRouteImport } from './routes/issues'
@@ -35,6 +36,11 @@ const AiAssistantRoute = AiAssistantRouteImport.update({
 const AuditRoute = AuditRouteImport.update({
   id: '/audit',
   path: '/audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BacklinksRoute = BacklinksRouteImport.update({
+  id: '/backlinks',
+  path: '/backlinks',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompetitorsRoute = CompetitorsRouteImport.update({
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/audit': typeof AuditRoute
+  '/backlinks': typeof BacklinksRoute
   '/competitors': typeof CompetitorsRoute
   '/indexing': typeof IndexingRoute
   '/issues': typeof IssuesRoute
@@ -101,6 +108,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/audit': typeof AuditRoute
+  '/backlinks': typeof BacklinksRoute
   '/competitors': typeof CompetitorsRoute
   '/indexing': typeof IndexingRoute
   '/issues': typeof IssuesRoute
@@ -116,6 +124,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/audit': typeof AuditRoute
+  '/backlinks': typeof BacklinksRoute
   '/competitors': typeof CompetitorsRoute
   '/indexing': typeof IndexingRoute
   '/issues': typeof IssuesRoute
@@ -132,6 +141,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-assistant'
     | '/audit'
+    | '/backlinks'
     | '/competitors'
     | '/indexing'
     | '/issues'
@@ -146,6 +156,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-assistant'
     | '/audit'
+    | '/backlinks'
     | '/competitors'
     | '/indexing'
     | '/issues'
@@ -160,6 +171,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-assistant'
     | '/audit'
+    | '/backlinks'
     | '/competitors'
     | '/indexing'
     | '/issues'
@@ -175,6 +187,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiAssistantRoute: typeof AiAssistantRoute
   AuditRoute: typeof AuditRoute
+  BacklinksRoute: typeof BacklinksRoute
   CompetitorsRoute: typeof CompetitorsRoute
   IndexingRoute: typeof IndexingRoute
   IssuesRoute: typeof IssuesRoute
@@ -207,6 +220,13 @@ declare module '@tanstack/react-router' {
       path: '/audit'
       fullPath: '/audit'
       preLoaderRoute: typeof AuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/backlinks': {
+      id: '/backlinks'
+      path: '/backlinks'
+      fullPath: '/backlinks'
+      preLoaderRoute: typeof BacklinksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/competitors': {
@@ -279,6 +299,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiAssistantRoute: AiAssistantRoute,
   AuditRoute: AuditRoute,
+  BacklinksRoute: BacklinksRoute,
   CompetitorsRoute: CompetitorsRoute,
   IndexingRoute: IndexingRoute,
   IssuesRoute: IssuesRoute,
