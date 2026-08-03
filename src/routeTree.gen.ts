@@ -10,33 +10,388 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdsRouteImport } from './routes/ads'
+import { Route as AiAssistantRouteImport } from './routes/ai-assistant'
+import { Route as AlertsRouteImport } from './routes/alerts'
+import { Route as AuditRouteImport } from './routes/audit'
+import { Route as BacklinksRouteImport } from './routes/backlinks'
+import { Route as BehaviorRouteImport } from './routes/behavior'
+import { Route as CompetitorsRouteImport } from './routes/competitors'
+import { Route as ContentRouteImport } from './routes/content'
+import { Route as EmailRouteImport } from './routes/email'
+import { Route as FlowsRouteImport } from './routes/flows'
+import { Route as InboxRouteImport } from './routes/inbox'
+import { Route as IndexingRouteImport } from './routes/indexing'
+import { Route as IntegrationsRouteImport } from './routes/integrations'
+import { Route as IssuesRouteImport } from './routes/issues'
+import { Route as KeywordsRouteImport } from './routes/keywords'
+import { Route as LeadsRouteImport } from './routes/leads'
+import { Route as MetaRulesRouteImport } from './routes/meta-rules'
+import { Route as PagesRouteImport } from './routes/pages'
+import { Route as PerformanceRouteImport } from './routes/performance'
+import { Route as ProductLibraryRouteImport } from './routes/product-library'
+import { Route as ReelsRouteImport } from './routes/reels'
+import { Route as RegionsRouteImport } from './routes/regions'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as SchedulerRouteImport } from './routes/scheduler'
+import { Route as SocialRouteImport } from './routes/social'
+import { Route as SpamGuardRouteImport } from './routes/spam-guard'
+import { Route as TechnicalRouteImport } from './routes/technical'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdsRoute = AdsRouteImport.update({
+  id: '/ads',
+  path: '/ads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiAssistantRoute = AiAssistantRouteImport.update({
+  id: '/ai-assistant',
+  path: '/ai-assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlertsRoute = AlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditRoute = AuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BacklinksRoute = BacklinksRouteImport.update({
+  id: '/backlinks',
+  path: '/backlinks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BehaviorRoute = BehaviorRouteImport.update({
+  id: '/behavior',
+  path: '/behavior',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompetitorsRoute = CompetitorsRouteImport.update({
+  id: '/competitors',
+  path: '/competitors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContentRoute = ContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmailRoute = EmailRouteImport.update({
+  id: '/email',
+  path: '/email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FlowsRoute = FlowsRouteImport.update({
+  id: '/flows',
+  path: '/flows',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InboxRoute = InboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexingRoute = IndexingRouteImport.update({
+  id: '/indexing',
+  path: '/indexing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntegrationsRoute = IntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IssuesRoute = IssuesRouteImport.update({
+  id: '/issues',
+  path: '/issues',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KeywordsRoute = KeywordsRouteImport.update({
+  id: '/keywords',
+  path: '/keywords',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeadsRoute = LeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MetaRulesRoute = MetaRulesRouteImport.update({
+  id: '/meta-rules',
+  path: '/meta-rules',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PagesRoute = PagesRouteImport.update({
+  id: '/pages',
+  path: '/pages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PerformanceRoute = PerformanceRouteImport.update({
+  id: '/performance',
+  path: '/performance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductLibraryRoute = ProductLibraryRouteImport.update({
+  id: '/product-library',
+  path: '/product-library',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReelsRoute = ReelsRouteImport.update({
+  id: '/reels',
+  path: '/reels',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegionsRoute = RegionsRouteImport.update({
+  id: '/regions',
+  path: '/regions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchedulerRoute = SchedulerRouteImport.update({
+  id: '/scheduler',
+  path: '/scheduler',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SocialRoute = SocialRouteImport.update({
+  id: '/social',
+  path: '/social',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SpamGuardRoute = SpamGuardRouteImport.update({
+  id: '/spam-guard',
+  path: '/spam-guard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TechnicalRoute = TechnicalRouteImport.update({
+  id: '/technical',
+  path: '/technical',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ads': typeof AdsRoute
+  '/ai-assistant': typeof AiAssistantRoute
+  '/alerts': typeof AlertsRoute
+  '/audit': typeof AuditRoute
+  '/backlinks': typeof BacklinksRoute
+  '/behavior': typeof BehaviorRoute
+  '/competitors': typeof CompetitorsRoute
+  '/content': typeof ContentRoute
+  '/email': typeof EmailRoute
+  '/flows': typeof FlowsRoute
+  '/inbox': typeof InboxRoute
+  '/indexing': typeof IndexingRoute
+  '/integrations': typeof IntegrationsRoute
+  '/issues': typeof IssuesRoute
+  '/keywords': typeof KeywordsRoute
+  '/leads': typeof LeadsRoute
+  '/meta-rules': typeof MetaRulesRoute
+  '/pages': typeof PagesRoute
+  '/performance': typeof PerformanceRoute
+  '/product-library': typeof ProductLibraryRoute
+  '/reels': typeof ReelsRoute
+  '/regions': typeof RegionsRoute
+  '/reports': typeof ReportsRoute
+  '/scheduler': typeof SchedulerRoute
+  '/social': typeof SocialRoute
+  '/spam-guard': typeof SpamGuardRoute
+  '/technical': typeof TechnicalRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ads': typeof AdsRoute
+  '/ai-assistant': typeof AiAssistantRoute
+  '/alerts': typeof AlertsRoute
+  '/audit': typeof AuditRoute
+  '/backlinks': typeof BacklinksRoute
+  '/behavior': typeof BehaviorRoute
+  '/competitors': typeof CompetitorsRoute
+  '/content': typeof ContentRoute
+  '/email': typeof EmailRoute
+  '/flows': typeof FlowsRoute
+  '/inbox': typeof InboxRoute
+  '/indexing': typeof IndexingRoute
+  '/integrations': typeof IntegrationsRoute
+  '/issues': typeof IssuesRoute
+  '/keywords': typeof KeywordsRoute
+  '/leads': typeof LeadsRoute
+  '/meta-rules': typeof MetaRulesRoute
+  '/pages': typeof PagesRoute
+  '/performance': typeof PerformanceRoute
+  '/product-library': typeof ProductLibraryRoute
+  '/reels': typeof ReelsRoute
+  '/regions': typeof RegionsRoute
+  '/reports': typeof ReportsRoute
+  '/scheduler': typeof SchedulerRoute
+  '/social': typeof SocialRoute
+  '/spam-guard': typeof SpamGuardRoute
+  '/technical': typeof TechnicalRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ads': typeof AdsRoute
+  '/ai-assistant': typeof AiAssistantRoute
+  '/alerts': typeof AlertsRoute
+  '/audit': typeof AuditRoute
+  '/backlinks': typeof BacklinksRoute
+  '/behavior': typeof BehaviorRoute
+  '/competitors': typeof CompetitorsRoute
+  '/content': typeof ContentRoute
+  '/email': typeof EmailRoute
+  '/flows': typeof FlowsRoute
+  '/inbox': typeof InboxRoute
+  '/indexing': typeof IndexingRoute
+  '/integrations': typeof IntegrationsRoute
+  '/issues': typeof IssuesRoute
+  '/keywords': typeof KeywordsRoute
+  '/leads': typeof LeadsRoute
+  '/meta-rules': typeof MetaRulesRoute
+  '/pages': typeof PagesRoute
+  '/performance': typeof PerformanceRoute
+  '/product-library': typeof ProductLibraryRoute
+  '/reels': typeof ReelsRoute
+  '/regions': typeof RegionsRoute
+  '/reports': typeof ReportsRoute
+  '/scheduler': typeof SchedulerRoute
+  '/social': typeof SocialRoute
+  '/spam-guard': typeof SpamGuardRoute
+  '/technical': typeof TechnicalRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/ads'
+    | '/ai-assistant'
+    | '/alerts'
+    | '/audit'
+    | '/backlinks'
+    | '/behavior'
+    | '/competitors'
+    | '/content'
+    | '/email'
+    | '/flows'
+    | '/inbox'
+    | '/indexing'
+    | '/integrations'
+    | '/issues'
+    | '/keywords'
+    | '/leads'
+    | '/meta-rules'
+    | '/pages'
+    | '/performance'
+    | '/product-library'
+    | '/reels'
+    | '/regions'
+    | '/reports'
+    | '/scheduler'
+    | '/social'
+    | '/spam-guard'
+    | '/technical'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/ads'
+    | '/ai-assistant'
+    | '/alerts'
+    | '/audit'
+    | '/backlinks'
+    | '/behavior'
+    | '/competitors'
+    | '/content'
+    | '/email'
+    | '/flows'
+    | '/inbox'
+    | '/indexing'
+    | '/integrations'
+    | '/issues'
+    | '/keywords'
+    | '/leads'
+    | '/meta-rules'
+    | '/pages'
+    | '/performance'
+    | '/product-library'
+    | '/reels'
+    | '/regions'
+    | '/reports'
+    | '/scheduler'
+    | '/social'
+    | '/spam-guard'
+    | '/technical'
+  id:
+    | '__root__'
+    | '/'
+    | '/ads'
+    | '/ai-assistant'
+    | '/alerts'
+    | '/audit'
+    | '/backlinks'
+    | '/behavior'
+    | '/competitors'
+    | '/content'
+    | '/email'
+    | '/flows'
+    | '/inbox'
+    | '/indexing'
+    | '/integrations'
+    | '/issues'
+    | '/keywords'
+    | '/leads'
+    | '/meta-rules'
+    | '/pages'
+    | '/performance'
+    | '/product-library'
+    | '/reels'
+    | '/regions'
+    | '/reports'
+    | '/scheduler'
+    | '/social'
+    | '/spam-guard'
+    | '/technical'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdsRoute: typeof AdsRoute
+  AiAssistantRoute: typeof AiAssistantRoute
+  AlertsRoute: typeof AlertsRoute
+  AuditRoute: typeof AuditRoute
+  BacklinksRoute: typeof BacklinksRoute
+  BehaviorRoute: typeof BehaviorRoute
+  CompetitorsRoute: typeof CompetitorsRoute
+  ContentRoute: typeof ContentRoute
+  EmailRoute: typeof EmailRoute
+  FlowsRoute: typeof FlowsRoute
+  InboxRoute: typeof InboxRoute
+  IndexingRoute: typeof IndexingRoute
+  IntegrationsRoute: typeof IntegrationsRoute
+  IssuesRoute: typeof IssuesRoute
+  KeywordsRoute: typeof KeywordsRoute
+  LeadsRoute: typeof LeadsRoute
+  MetaRulesRoute: typeof MetaRulesRoute
+  PagesRoute: typeof PagesRoute
+  PerformanceRoute: typeof PerformanceRoute
+  ProductLibraryRoute: typeof ProductLibraryRoute
+  ReelsRoute: typeof ReelsRoute
+  RegionsRoute: typeof RegionsRoute
+  ReportsRoute: typeof ReportsRoute
+  SchedulerRoute: typeof SchedulerRoute
+  SocialRoute: typeof SocialRoute
+  SpamGuardRoute: typeof SpamGuardRoute
+  TechnicalRoute: typeof TechnicalRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +403,227 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ads': {
+      id: '/ads'
+      path: '/ads'
+      fullPath: '/ads'
+      preLoaderRoute: typeof AdsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-assistant': {
+      id: '/ai-assistant'
+      path: '/ai-assistant'
+      fullPath: '/ai-assistant'
+      preLoaderRoute: typeof AiAssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alerts': {
+      id: '/alerts'
+      path: '/alerts'
+      fullPath: '/alerts'
+      preLoaderRoute: typeof AlertsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/audit': {
+      id: '/audit'
+      path: '/audit'
+      fullPath: '/audit'
+      preLoaderRoute: typeof AuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/backlinks': {
+      id: '/backlinks'
+      path: '/backlinks'
+      fullPath: '/backlinks'
+      preLoaderRoute: typeof BacklinksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/behavior': {
+      id: '/behavior'
+      path: '/behavior'
+      fullPath: '/behavior'
+      preLoaderRoute: typeof BehaviorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/competitors': {
+      id: '/competitors'
+      path: '/competitors'
+      fullPath: '/competitors'
+      preLoaderRoute: typeof CompetitorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/content': {
+      id: '/content'
+      path: '/content'
+      fullPath: '/content'
+      preLoaderRoute: typeof ContentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/email': {
+      id: '/email'
+      path: '/email'
+      fullPath: '/email'
+      preLoaderRoute: typeof EmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flows': {
+      id: '/flows'
+      path: '/flows'
+      fullPath: '/flows'
+      preLoaderRoute: typeof FlowsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inbox': {
+      id: '/inbox'
+      path: '/inbox'
+      fullPath: '/inbox'
+      preLoaderRoute: typeof InboxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/indexing': {
+      id: '/indexing'
+      path: '/indexing'
+      fullPath: '/indexing'
+      preLoaderRoute: typeof IndexingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/integrations': {
+      id: '/integrations'
+      path: '/integrations'
+      fullPath: '/integrations'
+      preLoaderRoute: typeof IntegrationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/issues': {
+      id: '/issues'
+      path: '/issues'
+      fullPath: '/issues'
+      preLoaderRoute: typeof IssuesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/keywords': {
+      id: '/keywords'
+      path: '/keywords'
+      fullPath: '/keywords'
+      preLoaderRoute: typeof KeywordsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leads': {
+      id: '/leads'
+      path: '/leads'
+      fullPath: '/leads'
+      preLoaderRoute: typeof LeadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/meta-rules': {
+      id: '/meta-rules'
+      path: '/meta-rules'
+      fullPath: '/meta-rules'
+      preLoaderRoute: typeof MetaRulesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages': {
+      id: '/pages'
+      path: '/pages'
+      fullPath: '/pages'
+      preLoaderRoute: typeof PagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/performance': {
+      id: '/performance'
+      path: '/performance'
+      fullPath: '/performance'
+      preLoaderRoute: typeof PerformanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/product-library': {
+      id: '/product-library'
+      path: '/product-library'
+      fullPath: '/product-library'
+      preLoaderRoute: typeof ProductLibraryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reels': {
+      id: '/reels'
+      path: '/reels'
+      fullPath: '/reels'
+      preLoaderRoute: typeof ReelsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/regions': {
+      id: '/regions'
+      path: '/regions'
+      fullPath: '/regions'
+      preLoaderRoute: typeof RegionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scheduler': {
+      id: '/scheduler'
+      path: '/scheduler'
+      fullPath: '/scheduler'
+      preLoaderRoute: typeof SchedulerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/social': {
+      id: '/social'
+      path: '/social'
+      fullPath: '/social'
+      preLoaderRoute: typeof SocialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/spam-guard': {
+      id: '/spam-guard'
+      path: '/spam-guard'
+      fullPath: '/spam-guard'
+      preLoaderRoute: typeof SpamGuardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/technical': {
+      id: '/technical'
+      path: '/technical'
+      fullPath: '/technical'
+      preLoaderRoute: typeof TechnicalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdsRoute: AdsRoute,
+  AiAssistantRoute: AiAssistantRoute,
+  AlertsRoute: AlertsRoute,
+  AuditRoute: AuditRoute,
+  BacklinksRoute: BacklinksRoute,
+  BehaviorRoute: BehaviorRoute,
+  CompetitorsRoute: CompetitorsRoute,
+  ContentRoute: ContentRoute,
+  EmailRoute: EmailRoute,
+  FlowsRoute: FlowsRoute,
+  InboxRoute: InboxRoute,
+  IndexingRoute: IndexingRoute,
+  IntegrationsRoute: IntegrationsRoute,
+  IssuesRoute: IssuesRoute,
+  KeywordsRoute: KeywordsRoute,
+  LeadsRoute: LeadsRoute,
+  MetaRulesRoute: MetaRulesRoute,
+  PagesRoute: PagesRoute,
+  PerformanceRoute: PerformanceRoute,
+  ProductLibraryRoute: ProductLibraryRoute,
+  ReelsRoute: ReelsRoute,
+  RegionsRoute: RegionsRoute,
+  ReportsRoute: ReportsRoute,
+  SchedulerRoute: SchedulerRoute,
+  SocialRoute: SocialRoute,
+  SpamGuardRoute: SpamGuardRoute,
+  TechnicalRoute: TechnicalRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
