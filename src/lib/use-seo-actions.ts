@@ -12,6 +12,26 @@ import {
   updateRecord,
 } from "@/lib/seo.functions";
 
+type SeoValue = string | number | boolean | null | string[];
+type SeoTableName =
+  | "seo_pages" | "seo_keywords" | "seo_meta_rules" | "seo_indexing_records"
+  | "seo_automations" | "seo_issues" | "seo_reports" | "seo_audits"
+  | "seo_backlinks" | "seo_competitors" | "seo_ai_suggestions" | "seo_content_items"
+  | "seo_technical_checks" | "seo_alerts" | "seo_leads" | "seo_ad_campaigns"
+  | "seo_email_campaigns" | "seo_social_posts" | "seo_social_comments"
+  | "seo_inbox_messages" | "seo_automation_flows" | "seo_reels"
+  | "seo_integrations" | "seo_product_entries";
+
+export type InsertInput = { table: SeoTableName; values: Record<string, SeoValue> };
+export type UpdateInput = InsertInput & { id: string };
+export type DeleteInput = { table: SeoTableName; id: string };
+export type AiInput = {
+  task: "suggestions" | "content" | "meta" | "reel" | "assistant";
+  prompt: string;
+  persist?: boolean;
+  context?: string;
+};
+
 function useInvalidate() {
   const client = useQueryClient();
   return () => client.invalidateQueries({ queryKey: ["seo"] });
@@ -25,7 +45,7 @@ export function useRecordActions() {
   const deleteFn = useServerFn(deleteRecord);
 
   const insert = useMutation({
-    mutationFn: (input: Parameters<typeof insertFn>[0]["data"]) => insertFn({ data: input }),
+    mutationFn: (input: InsertInput) => insertFn({ data: input }),
     onSuccess: () => {
       toast.success("Created");
       void invalidate();
@@ -34,7 +54,7 @@ export function useRecordActions() {
   });
 
   const update = useMutation({
-    mutationFn: (input: Parameters<typeof updateFn>[0]["data"]) => updateFn({ data: input }),
+    mutationFn: (input: UpdateInput) => updateFn({ data: input }),
     onSuccess: () => {
       toast.success("Saved");
       void invalidate();
@@ -43,7 +63,7 @@ export function useRecordActions() {
   });
 
   const remove = useMutation({
-    mutationFn: (input: Parameters<typeof deleteFn>[0]["data"]) => deleteFn({ data: input }),
+    mutationFn: (input: DeleteInput) => deleteFn({ data: input }),
     onSuccess: () => {
       toast.success("Deleted");
       void invalidate();
@@ -71,7 +91,7 @@ export function useAiGeneration() {
   const invalidate = useInvalidate();
   const generate = useServerFn(generateWithAi);
   return useMutation({
-    mutationFn: (input: Parameters<typeof generate>[0]["data"]) => generate({ data: input }),
+    mutationFn: (input: AiInput) => generate({ data: input }),
     onSuccess: () => void invalidate(),
     onError: (e: Error) => toast.error(e.message),
   });
