@@ -22,6 +22,7 @@ import { Route as EmailRouteImport } from './routes/email'
 import { Route as FlowsRouteImport } from './routes/flows'
 import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as IndexingRouteImport } from './routes/indexing'
+import { Route as IntegrationsRouteImport } from './routes/integrations'
 import { Route as IssuesRouteImport } from './routes/issues'
 import { Route as KeywordsRouteImport } from './routes/keywords'
 import { Route as LeadsRouteImport } from './routes/leads'
@@ -29,8 +30,10 @@ import { Route as MetaRulesRouteImport } from './routes/meta-rules'
 import { Route as PagesRouteImport } from './routes/pages'
 import { Route as PerformanceRouteImport } from './routes/performance'
 import { Route as ProductLibraryRouteImport } from './routes/product-library'
+import { Route as ReelsRouteImport } from './routes/reels'
 import { Route as RegionsRouteImport } from './routes/regions'
 import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as SchedulerRouteImport } from './routes/scheduler'
 import { Route as SocialRouteImport } from './routes/social'
 import { Route as SpamGuardRouteImport } from './routes/spam-guard'
 import { Route as TechnicalRouteImport } from './routes/technical'
@@ -100,6 +103,11 @@ const IndexingRoute = IndexingRouteImport.update({
   path: '/indexing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IntegrationsRoute = IntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IssuesRoute = IssuesRouteImport.update({
   id: '/issues',
   path: '/issues',
@@ -135,6 +143,11 @@ const ProductLibraryRoute = ProductLibraryRouteImport.update({
   path: '/product-library',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReelsRoute = ReelsRouteImport.update({
+  id: '/reels',
+  path: '/reels',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegionsRoute = RegionsRouteImport.update({
   id: '/regions',
   path: '/regions',
@@ -143,6 +156,11 @@ const RegionsRoute = RegionsRouteImport.update({
 const ReportsRoute = ReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchedulerRoute = SchedulerRouteImport.update({
+  id: '/scheduler',
+  path: '/scheduler',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SocialRoute = SocialRouteImport.update({
@@ -175,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/flows': typeof FlowsRoute
   '/inbox': typeof InboxRoute
   '/indexing': typeof IndexingRoute
+  '/integrations': typeof IntegrationsRoute
   '/issues': typeof IssuesRoute
   '/keywords': typeof KeywordsRoute
   '/leads': typeof LeadsRoute
@@ -182,8 +201,10 @@ export interface FileRoutesByFullPath {
   '/pages': typeof PagesRoute
   '/performance': typeof PerformanceRoute
   '/product-library': typeof ProductLibraryRoute
+  '/reels': typeof ReelsRoute
   '/regions': typeof RegionsRoute
   '/reports': typeof ReportsRoute
+  '/scheduler': typeof SchedulerRoute
   '/social': typeof SocialRoute
   '/spam-guard': typeof SpamGuardRoute
   '/technical': typeof TechnicalRoute
@@ -202,6 +223,7 @@ export interface FileRoutesByTo {
   '/flows': typeof FlowsRoute
   '/inbox': typeof InboxRoute
   '/indexing': typeof IndexingRoute
+  '/integrations': typeof IntegrationsRoute
   '/issues': typeof IssuesRoute
   '/keywords': typeof KeywordsRoute
   '/leads': typeof LeadsRoute
@@ -209,8 +231,10 @@ export interface FileRoutesByTo {
   '/pages': typeof PagesRoute
   '/performance': typeof PerformanceRoute
   '/product-library': typeof ProductLibraryRoute
+  '/reels': typeof ReelsRoute
   '/regions': typeof RegionsRoute
   '/reports': typeof ReportsRoute
+  '/scheduler': typeof SchedulerRoute
   '/social': typeof SocialRoute
   '/spam-guard': typeof SpamGuardRoute
   '/technical': typeof TechnicalRoute
@@ -230,6 +254,7 @@ export interface FileRoutesById {
   '/flows': typeof FlowsRoute
   '/inbox': typeof InboxRoute
   '/indexing': typeof IndexingRoute
+  '/integrations': typeof IntegrationsRoute
   '/issues': typeof IssuesRoute
   '/keywords': typeof KeywordsRoute
   '/leads': typeof LeadsRoute
@@ -237,8 +262,10 @@ export interface FileRoutesById {
   '/pages': typeof PagesRoute
   '/performance': typeof PerformanceRoute
   '/product-library': typeof ProductLibraryRoute
+  '/reels': typeof ReelsRoute
   '/regions': typeof RegionsRoute
   '/reports': typeof ReportsRoute
+  '/scheduler': typeof SchedulerRoute
   '/social': typeof SocialRoute
   '/spam-guard': typeof SpamGuardRoute
   '/technical': typeof TechnicalRoute
@@ -259,6 +286,7 @@ export interface FileRouteTypes {
     | '/flows'
     | '/inbox'
     | '/indexing'
+    | '/integrations'
     | '/issues'
     | '/keywords'
     | '/leads'
@@ -266,8 +294,10 @@ export interface FileRouteTypes {
     | '/pages'
     | '/performance'
     | '/product-library'
+    | '/reels'
     | '/regions'
     | '/reports'
+    | '/scheduler'
     | '/social'
     | '/spam-guard'
     | '/technical'
@@ -286,6 +316,7 @@ export interface FileRouteTypes {
     | '/flows'
     | '/inbox'
     | '/indexing'
+    | '/integrations'
     | '/issues'
     | '/keywords'
     | '/leads'
@@ -293,8 +324,10 @@ export interface FileRouteTypes {
     | '/pages'
     | '/performance'
     | '/product-library'
+    | '/reels'
     | '/regions'
     | '/reports'
+    | '/scheduler'
     | '/social'
     | '/spam-guard'
     | '/technical'
@@ -313,6 +346,7 @@ export interface FileRouteTypes {
     | '/flows'
     | '/inbox'
     | '/indexing'
+    | '/integrations'
     | '/issues'
     | '/keywords'
     | '/leads'
@@ -320,8 +354,10 @@ export interface FileRouteTypes {
     | '/pages'
     | '/performance'
     | '/product-library'
+    | '/reels'
     | '/regions'
     | '/reports'
+    | '/scheduler'
     | '/social'
     | '/spam-guard'
     | '/technical'
@@ -341,6 +377,7 @@ export interface RootRouteChildren {
   FlowsRoute: typeof FlowsRoute
   InboxRoute: typeof InboxRoute
   IndexingRoute: typeof IndexingRoute
+  IntegrationsRoute: typeof IntegrationsRoute
   IssuesRoute: typeof IssuesRoute
   KeywordsRoute: typeof KeywordsRoute
   LeadsRoute: typeof LeadsRoute
@@ -348,8 +385,10 @@ export interface RootRouteChildren {
   PagesRoute: typeof PagesRoute
   PerformanceRoute: typeof PerformanceRoute
   ProductLibraryRoute: typeof ProductLibraryRoute
+  ReelsRoute: typeof ReelsRoute
   RegionsRoute: typeof RegionsRoute
   ReportsRoute: typeof ReportsRoute
+  SchedulerRoute: typeof SchedulerRoute
   SocialRoute: typeof SocialRoute
   SpamGuardRoute: typeof SpamGuardRoute
   TechnicalRoute: typeof TechnicalRoute
@@ -448,6 +487,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/integrations': {
+      id: '/integrations'
+      path: '/integrations'
+      fullPath: '/integrations'
+      preLoaderRoute: typeof IntegrationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/issues': {
       id: '/issues'
       path: '/issues'
@@ -497,6 +543,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductLibraryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reels': {
+      id: '/reels'
+      path: '/reels'
+      fullPath: '/reels'
+      preLoaderRoute: typeof ReelsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/regions': {
       id: '/regions'
       path: '/regions'
@@ -509,6 +562,13 @@ declare module '@tanstack/react-router' {
       path: '/reports'
       fullPath: '/reports'
       preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scheduler': {
+      id: '/scheduler'
+      path: '/scheduler'
+      fullPath: '/scheduler'
+      preLoaderRoute: typeof SchedulerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/social': {
@@ -549,6 +609,7 @@ const rootRouteChildren: RootRouteChildren = {
   FlowsRoute: FlowsRoute,
   InboxRoute: InboxRoute,
   IndexingRoute: IndexingRoute,
+  IntegrationsRoute: IntegrationsRoute,
   IssuesRoute: IssuesRoute,
   KeywordsRoute: KeywordsRoute,
   LeadsRoute: LeadsRoute,
@@ -556,8 +617,10 @@ const rootRouteChildren: RootRouteChildren = {
   PagesRoute: PagesRoute,
   PerformanceRoute: PerformanceRoute,
   ProductLibraryRoute: ProductLibraryRoute,
+  ReelsRoute: ReelsRoute,
   RegionsRoute: RegionsRoute,
   ReportsRoute: ReportsRoute,
+  SchedulerRoute: SchedulerRoute,
   SocialRoute: SocialRoute,
   SpamGuardRoute: SpamGuardRoute,
   TechnicalRoute: TechnicalRoute,
@@ -565,3 +628,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
