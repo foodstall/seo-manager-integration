@@ -17,6 +17,7 @@ import { Route as KeywordsRouteImport } from './routes/keywords'
 import { Route as MetaRulesRouteImport } from './routes/meta-rules'
 import { Route as PagesRouteImport } from './routes/pages'
 import { Route as PerformanceRouteImport } from './routes/performance'
+import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as TechnicalRouteImport } from './routes/technical'
 
 const IndexRoute = IndexRouteImport.update({
@@ -59,6 +60,11 @@ const PerformanceRoute = PerformanceRouteImport.update({
   path: '/performance',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TechnicalRoute = TechnicalRouteImport.update({
   id: '/technical',
   path: '/technical',
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/meta-rules': typeof MetaRulesRoute
   '/pages': typeof PagesRoute
   '/performance': typeof PerformanceRoute
+  '/reports': typeof ReportsRoute
   '/technical': typeof TechnicalRoute
 }
 export interface FileRoutesByTo {
@@ -85,6 +92,7 @@ export interface FileRoutesByTo {
   '/meta-rules': typeof MetaRulesRoute
   '/pages': typeof PagesRoute
   '/performance': typeof PerformanceRoute
+  '/reports': typeof ReportsRoute
   '/technical': typeof TechnicalRoute
 }
 export interface FileRoutesById {
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/meta-rules': typeof MetaRulesRoute
   '/pages': typeof PagesRoute
   '/performance': typeof PerformanceRoute
+  '/reports': typeof ReportsRoute
   '/technical': typeof TechnicalRoute
 }
 export interface FileRouteTypes {
@@ -110,6 +119,7 @@ export interface FileRouteTypes {
     | '/meta-rules'
     | '/pages'
     | '/performance'
+    | '/reports'
     | '/technical'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/meta-rules'
     | '/pages'
     | '/performance'
+    | '/reports'
     | '/technical'
   id:
     | '__root__'
@@ -132,6 +143,7 @@ export interface FileRouteTypes {
     | '/meta-rules'
     | '/pages'
     | '/performance'
+    | '/reports'
     | '/technical'
   fileRoutesById: FileRoutesById
 }
@@ -144,6 +156,7 @@ export interface RootRouteChildren {
   MetaRulesRoute: typeof MetaRulesRoute
   PagesRoute: typeof PagesRoute
   PerformanceRoute: typeof PerformanceRoute
+  ReportsRoute: typeof ReportsRoute
   TechnicalRoute: typeof TechnicalRoute
 }
 
@@ -205,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PerformanceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/technical': {
       id: '/technical'
       path: '/technical'
@@ -224,6 +244,7 @@ const rootRouteChildren: RootRouteChildren = {
   MetaRulesRoute: MetaRulesRoute,
   PagesRoute: PagesRoute,
   PerformanceRoute: PerformanceRoute,
+  ReportsRoute: ReportsRoute,
   TechnicalRoute: TechnicalRoute,
 }
 export const routeTree = rootRouteImport
