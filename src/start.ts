@@ -52,7 +52,7 @@ const csrfMiddleware = createCsrfMiddleware({
 
 // Captures every server-function failure (they are serialized back to the
 // client, so the request middleware never sees them) before rethrowing.
-const serverFnMonitoring = createMiddleware().server(async ({ next }) => {
+const serverFnMonitoring = createMiddleware({ type: "function" }).server(async ({ next }) => {
   try {
     return await next();
   } catch (error) {
