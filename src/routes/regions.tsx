@@ -8,12 +8,8 @@ import {
   Panel,
   QueryBoundary,
   StatusPill,
-  formatDate,
-  formatDateTime,
-  cf,
   nf,
 } from "@/components/seo/primitives";
-import { Button } from "@/components/ui/button";
 import { seoQueries, type Row } from "@/lib/seo-queries";
 import { seoHead } from "@/lib/seo-head";
 import { useRecordActions } from "@/lib/use-seo-actions";
@@ -27,13 +23,6 @@ function Screen() {
   const query = useQuery(seoQueries.regions());
   const { update } = useRecordActions();
   const all = query.data ?? [];
-  void update;
-  void cf;
-  void formatDate;
-  void formatDateTime;
-  void nf;
-  void StatusPill;
-  void Button;
 
   return (
     <SeoShell title="Regional Modes" description="Country and region level keyword coverage, traffic share and growth.">

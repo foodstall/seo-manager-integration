@@ -8,10 +8,7 @@ import {
   Panel,
   QueryBoundary,
   StatusPill,
-  formatDate,
   formatDateTime,
-  cf,
-  nf,
 } from "@/components/seo/primitives";
 import { Button } from "@/components/ui/button";
 import { seoQueries, type Row } from "@/lib/seo-queries";
@@ -27,13 +24,6 @@ function Screen() {
   const query = useQuery(seoQueries.alerts());
   const { update } = useRecordActions();
   const all = query.data ?? [];
-  void update;
-  void cf;
-  void formatDate;
-  void formatDateTime;
-  void nf;
-  void StatusPill;
-  void Button;
 
   return (
     <SeoShell title="Alerts" description="Ranking drops, crawl errors and traffic anomalies as they happen.">

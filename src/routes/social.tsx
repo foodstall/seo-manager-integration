@@ -8,9 +8,7 @@ import {
   Panel,
   QueryBoundary,
   StatusPill,
-  formatDate,
   formatDateTime,
-  cf,
   nf,
 } from "@/components/seo/primitives";
 import { Button } from "@/components/ui/button";
@@ -27,13 +25,6 @@ function Screen() {
   const query = useQuery(seoQueries.socialPosts());
   const { update } = useRecordActions();
   const all = query.data ?? [];
-  void update;
-  void cf;
-  void formatDate;
-  void formatDateTime;
-  void nf;
-  void StatusPill;
-  void Button;
 
   return (
     <SeoShell title="Social Auto-Post" description="Scheduled and published social posts with reach and engagement.">
