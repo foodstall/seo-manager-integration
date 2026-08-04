@@ -44,6 +44,21 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+async function captureSsrFailure(request: Request, error: unknown) {
+  try {
+    const { captureServerError } = await import("./lib/seo-monitoring.server");
+    await captureServerError({
+      source: "ssr",
+      error,
+      route: new URL(request.url).pathname,
+      severity: "critical",
+      context: { method: request.method },
+    });
+  } catch (monitoringError) {
+    console.error("[monitoring] capture failed", monitoringError);
+  }
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
@@ -52,6 +67,7 @@ export default {
       return await normalizeCatastrophicSsrResponse(response);
     } catch (error) {
       console.error(error);
+      await captureSsrFailure(request, error);
       return new Response(renderErrorPage(), {
         status: 500,
         headers: { "content-type": "text/html; charset=utf-8" },
@@ -59,3 +75,4 @@ export default {
     }
   },
 };
+
