@@ -18,6 +18,7 @@ import { Route as BacklinksRouteImport } from './routes/backlinks'
 import { Route as BehaviorRouteImport } from './routes/behavior'
 import { Route as CompetitorsRouteImport } from './routes/competitors'
 import { Route as ContentRouteImport } from './routes/content'
+import { Route as DiagnosticsRouteImport } from './routes/diagnostics'
 import { Route as EmailRouteImport } from './routes/email'
 import { Route as FlowsRouteImport } from './routes/flows'
 import { Route as InboxRouteImport } from './routes/inbox'
@@ -81,6 +82,11 @@ const CompetitorsRoute = CompetitorsRouteImport.update({
 const ContentRoute = ContentRouteImport.update({
   id: '/content',
   path: '/content',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiagnosticsRoute = DiagnosticsRouteImport.update({
+  id: '/diagnostics',
+  path: '/diagnostics',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EmailRoute = EmailRouteImport.update({
@@ -189,6 +195,7 @@ export interface FileRoutesByFullPath {
   '/behavior': typeof BehaviorRoute
   '/competitors': typeof CompetitorsRoute
   '/content': typeof ContentRoute
+  '/diagnostics': typeof DiagnosticsRoute
   '/email': typeof EmailRoute
   '/flows': typeof FlowsRoute
   '/inbox': typeof InboxRoute
@@ -219,6 +226,7 @@ export interface FileRoutesByTo {
   '/behavior': typeof BehaviorRoute
   '/competitors': typeof CompetitorsRoute
   '/content': typeof ContentRoute
+  '/diagnostics': typeof DiagnosticsRoute
   '/email': typeof EmailRoute
   '/flows': typeof FlowsRoute
   '/inbox': typeof InboxRoute
@@ -250,6 +258,7 @@ export interface FileRoutesById {
   '/behavior': typeof BehaviorRoute
   '/competitors': typeof CompetitorsRoute
   '/content': typeof ContentRoute
+  '/diagnostics': typeof DiagnosticsRoute
   '/email': typeof EmailRoute
   '/flows': typeof FlowsRoute
   '/inbox': typeof InboxRoute
@@ -282,6 +291,7 @@ export interface FileRouteTypes {
     | '/behavior'
     | '/competitors'
     | '/content'
+    | '/diagnostics'
     | '/email'
     | '/flows'
     | '/inbox'
@@ -312,6 +322,7 @@ export interface FileRouteTypes {
     | '/behavior'
     | '/competitors'
     | '/content'
+    | '/diagnostics'
     | '/email'
     | '/flows'
     | '/inbox'
@@ -342,6 +353,7 @@ export interface FileRouteTypes {
     | '/behavior'
     | '/competitors'
     | '/content'
+    | '/diagnostics'
     | '/email'
     | '/flows'
     | '/inbox'
@@ -373,6 +385,7 @@ export interface RootRouteChildren {
   BehaviorRoute: typeof BehaviorRoute
   CompetitorsRoute: typeof CompetitorsRoute
   ContentRoute: typeof ContentRoute
+  DiagnosticsRoute: typeof DiagnosticsRoute
   EmailRoute: typeof EmailRoute
   FlowsRoute: typeof FlowsRoute
   InboxRoute: typeof InboxRoute
@@ -457,6 +470,13 @@ declare module '@tanstack/react-router' {
       path: '/content'
       fullPath: '/content'
       preLoaderRoute: typeof ContentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diagnostics': {
+      id: '/diagnostics'
+      path: '/diagnostics'
+      fullPath: '/diagnostics'
+      preLoaderRoute: typeof DiagnosticsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/email': {
@@ -605,6 +625,7 @@ const rootRouteChildren: RootRouteChildren = {
   BehaviorRoute: BehaviorRoute,
   CompetitorsRoute: CompetitorsRoute,
   ContentRoute: ContentRoute,
+  DiagnosticsRoute: DiagnosticsRoute,
   EmailRoute: EmailRoute,
   FlowsRoute: FlowsRoute,
   InboxRoute: InboxRoute,
@@ -628,13 +649,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

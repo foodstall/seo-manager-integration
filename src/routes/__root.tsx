@@ -10,7 +10,10 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { Toaster } from "@/components/ui/sonner";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { useReportError } from "@/lib/use-diagnostics";
+
 
 function NotFoundComponent() {
   return (
@@ -37,9 +40,18 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+  const report = useReportError();
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    report({
+      message: error.message || String(error),
+      name: error.name || "RouteError",
+      ...(error.stack ? { stack: error.stack.slice(0, 6000) } : {}),
+      route: typeof window !== "undefined" ? window.location.pathname : "unknown",
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
+
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -77,14 +89,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Software Vala SEO Manager" },
+      { name: "description", content: "SEO command center for Software Vala: rankings, technical health, content and growth automation." },
+      { name: "author", content: "Software Vala" },
+      { property: "og:title", content: "Software Vala SEO Manager" },
+      { property: "og:description", content: "SEO command center for Software Vala." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -108,6 +119,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
+        <Toaster richColors position="top-right" />
         <Scripts />
       </body>
     </html>

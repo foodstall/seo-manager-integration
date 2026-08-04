@@ -84,6 +84,7 @@ export const navGroups: Array<{ title: string; items: NavItem[] }> = [
     title: "Control",
     items: [
       { to: "/alerts", label: "Alerts", icon: Zap },
+      { to: "/diagnostics", label: "Diagnostics", icon: Activity },
       { to: "/integrations", label: "Settings & Integrations", icon: Plug },
     ],
   },

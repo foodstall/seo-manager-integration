@@ -97,4 +97,8 @@ export const seoQueries = {
   spam: () =>
     tableQuery("seo_spam_events", { order: { column: "created_at", ascending: false } }),
   products: () => tableQuery("seo_product_entries", { order: { column: "product_name" } }),
+  benchmarks: () =>
+    tableQuery("seo_benchmark_runs", { order: { column: "created_at", ascending: false }, limit: 200 }),
+  errorEvents: () =>
+    tableQuery("seo_error_events", { order: { column: "last_seen_at", ascending: false }, limit: 200 }),
 };
