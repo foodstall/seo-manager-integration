@@ -343,6 +343,48 @@ export type Database = {
         }
         Relationships: []
       }
+      seo_benchmark_runs: {
+        Row: {
+          created_at: string
+          id: string
+          label: string
+          notes: string | null
+          pagination_ms: number
+          query_ms: number
+          report_ms: number
+          rows_scanned: number
+          status: string
+          target: string
+          ttfb_ms: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          label: string
+          notes?: string | null
+          pagination_ms?: number
+          query_ms?: number
+          report_ms?: number
+          rows_scanned?: number
+          status?: string
+          target: string
+          ttfb_ms?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          label?: string
+          notes?: string | null
+          pagination_ms?: number
+          query_ms?: number
+          report_ms?: number
+          rows_scanned?: number
+          status?: string
+          target?: string
+          ttfb_ms?: number
+        }
+        Relationships: []
+      }
       seo_competitor_gaps: {
         Row: {
           competitor_id: string
@@ -516,6 +558,57 @@ export type Database = {
           status?: string
           subject?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      seo_error_events: {
+        Row: {
+          context: Json
+          created_at: string
+          first_seen_at: string
+          fn_name: string | null
+          id: string
+          last_seen_at: string
+          message: string
+          name: string
+          occurrences: number
+          resolved: boolean
+          route: string | null
+          severity: string
+          source: string
+          stack: string | null
+        }
+        Insert: {
+          context?: Json
+          created_at?: string
+          first_seen_at?: string
+          fn_name?: string | null
+          id?: string
+          last_seen_at?: string
+          message: string
+          name: string
+          occurrences?: number
+          resolved?: boolean
+          route?: string | null
+          severity?: string
+          source: string
+          stack?: string | null
+        }
+        Update: {
+          context?: Json
+          created_at?: string
+          first_seen_at?: string
+          fn_name?: string | null
+          id?: string
+          last_seen_at?: string
+          message?: string
+          name?: string
+          occurrences?: number
+          resolved?: boolean
+          route?: string | null
+          severity?: string
+          source?: string
+          stack?: string | null
         }
         Relationships: []
       }
