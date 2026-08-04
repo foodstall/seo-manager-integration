@@ -84,7 +84,11 @@ export async function captureServerError(input: CapturedErrorInput): Promise<voi
   }
 }
 
-/** Extracts a readable route/function label from an incoming request URL. */
+/**
+ * Extracts a readable route/function label from an incoming request URL.
+ * Server-function requests are addressed as /_serverFn/<base64 json>, so the
+ * id is decoded back into "file :: export" for actionable context.
+ */
 export function labelFromRequest(request: Request | undefined): {
   route: string | null;
   fnName: string | null;
@@ -92,11 +96,26 @@ export function labelFromRequest(request: Request | undefined): {
   if (!request) return { route: null, fnName: null };
   try {
     const url = new URL(request.url);
-    const fnName = url.searchParams.get("_serverFnId")
-      ? (url.searchParams.get("createServerFn") ?? url.searchParams.get("_serverFnId"))
-      : null;
-    return { route: url.pathname + url.search.slice(0, 200), fnName };
+    const referer = request.headers.get("referer");
+    const refererPath = referer ? new URL(referer).pathname : null;
+
+    const match = url.pathname.match(/^\/_serverFn\/([^/]+)/);
+    if (match?.[1]) {
+      let fnName: string | null = match[1].slice(0, 120);
+      try {
+        const decoded = JSON.parse(atob(match[1])) as { file?: string; export?: string };
+        const file = (decoded.file ?? "").replace("?tss-serverfn-split", "");
+        const exported = (decoded.export ?? "").replace("_createServerFn_handler", "");
+        fnName = [file, exported].filter(Boolean).join(" :: ") || fnName;
+      } catch {
+        // keep the raw id when it is not a decodable payload
+      }
+      return { route: refererPath ?? url.pathname, fnName };
+    }
+
+    return { route: refererPath ?? url.pathname + url.search.slice(0, 200), fnName: null };
   } catch {
     return { route: null, fnName: null };
   }
 }
+
