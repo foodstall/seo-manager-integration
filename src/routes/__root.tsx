@@ -11,6 +11,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { useReportError } from "@/lib/use-diagnostics";
+
 
 function NotFoundComponent() {
   return (
@@ -37,9 +39,18 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+  const report = useReportError();
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    report({
+      message: error.message || String(error),
+      name: error.name || "RouteError",
+      ...(error.stack ? { stack: error.stack.slice(0, 6000) } : {}),
+      route: typeof window !== "undefined" ? window.location.pathname : "unknown",
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
+
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
