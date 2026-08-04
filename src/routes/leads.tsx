@@ -9,11 +9,8 @@ import {
   QueryBoundary,
   StatusPill,
   formatDate,
-  formatDateTime,
   cf,
-  nf,
 } from "@/components/seo/primitives";
-import { Button } from "@/components/ui/button";
 import { seoQueries, type Row } from "@/lib/seo-queries";
 import { seoHead } from "@/lib/seo-head";
 import { useRecordActions } from "@/lib/use-seo-actions";
@@ -27,13 +24,6 @@ function Screen() {
   const query = useQuery(seoQueries.leads());
   const { update } = useRecordActions();
   const all = query.data ?? [];
-  void update;
-  void cf;
-  void formatDate;
-  void formatDateTime;
-  void nf;
-  void StatusPill;
-  void Button;
 
   return (
     <SeoShell title="Lead Intelligence" description="Organic leads with scoring, source attribution and pipeline stage.">

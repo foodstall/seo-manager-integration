@@ -8,8 +8,6 @@ import {
   Panel,
   QueryBoundary,
   StatusPill,
-  formatDate,
-  formatDateTime,
   cf,
   nf,
 } from "@/components/seo/primitives";
@@ -27,13 +25,6 @@ function Screen() {
   const query = useQuery(seoQueries.adCampaigns());
   const { update } = useRecordActions();
   const all = query.data ?? [];
-  void update;
-  void cf;
-  void formatDate;
-  void formatDateTime;
-  void nf;
-  void StatusPill;
-  void Button;
 
   return (
     <SeoShell title="Ads Automation" description="Paid campaign spend, conversions, CPA and ROAS alongside organic performance.">
