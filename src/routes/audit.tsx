@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Play, Shield } from "lucide-react";
+import { History, Play, Shield } from "lucide-react";
 
 import { SeoShell } from "@/components/seo/SeoShell";
 import { DataTable } from "@/components/seo/DataTable";
@@ -31,6 +31,7 @@ type Breakdown = Record<string, number>;
 
 function AuditScreen() {
   const audits = useQuery(seoQueries.audits());
+  const activity = useQuery(seoQueries.activity());
   const audit = useSiteAudit();
 
   const all = audits.data ?? [];
@@ -99,6 +100,23 @@ function AuditScreen() {
                     <span className="text-xs text-muted-foreground">{formatDateTime(a.completed_at)}</span>
                   ),
                 },
+              ]}
+            />
+          )}
+        </QueryBoundary>
+      </Panel>
+
+      <Panel className="mt-4" title="Immutable activity trail" description="Database-recorded changes across the SEO Manager">
+        <QueryBoundary query={activity} empty="No SEO Manager changes recorded yet.">
+          {(rows) => (
+            <DataTable<Row<"seo_activity_log">>
+              rows={rows}
+              columns={[
+                { key: "time", header: "Time", render: (row) => <span className="text-xs text-muted-foreground">{formatDateTime(row.occurred_at)}</span> },
+                { key: "action", header: "Action", render: (row) => <StatusPill value={row.action.toLowerCase()} /> },
+                { key: "table", header: "Area", render: (row) => <span className="font-medium">{row.table_name.replace(/^seo_/, "").replace(/_/g, " ")}</span> },
+                { key: "record", header: "Record", render: (row) => <span className="numeric text-xs text-muted-foreground">{row.record_id?.slice(0, 8) ?? "—"}</span> },
+                { key: "actor", header: "Actor", render: (row) => <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground"><History className="h-3.5 w-3.5" />{row.actor.replace(/_/g, " ")}</span> },
               ]}
             />
           )}

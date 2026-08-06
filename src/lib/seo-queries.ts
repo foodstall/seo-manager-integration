@@ -43,6 +43,8 @@ export function tableQuery<T extends SeoTable>(table: T, options: ListOptions = 
 }
 
 export const seoQueries = {
+  activity: () =>
+    tableQuery("seo_activity_log", { order: { column: "occurred_at", ascending: false }, limit: 200 }),
   pages: () => tableQuery("seo_pages", { order: { column: "url" } }),
   keywords: () =>
     tableQuery("seo_keywords", { order: { column: "search_volume", ascending: false } }),
