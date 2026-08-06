@@ -8,7 +8,7 @@ import { KpiCard, Panel, QueryBoundary, StatusPill, formatDate } from "@/compone
 import { Button } from "@/components/ui/button";
 import { seoQueries, type Row } from "@/lib/seo-queries";
 import { seoHead } from "@/lib/seo-head";
-import { useRecordActions } from "@/lib/use-seo-actions";
+import { useGenerateReport } from "@/lib/use-seo-actions";
 
 export const Route = createFileRoute("/reports")({
   head: seoHead(
@@ -31,7 +31,7 @@ function download(report: Row<"seo_reports">) {
 
 function ReportsScreen() {
   const reports = useQuery(seoQueries.reports());
-  const { insert } = useRecordActions();
+  const generate = useGenerateReport();
   const all = reports.data ?? [];
 
   return (
@@ -41,21 +41,8 @@ function ReportsScreen() {
       actions={
         <Button
           size="sm"
-          disabled={insert.isPending}
-          onClick={() => {
-            const end = new Date();
-            const start = new Date(end.getTime() - 30 * 86_400_000);
-            insert.mutate({
-              table: "seo_reports",
-              values: {
-                name: `Monthly SEO report · ${end.toLocaleDateString("en-US", { month: "short", year: "numeric" })}`,
-                report_type: "monthly",
-                period_start: start.toISOString().slice(0, 10),
-                period_end: end.toISOString().slice(0, 10),
-                status: "generating",
-              },
-            });
-          }}
+          disabled={generate.isPending}
+          onClick={() => generate.mutate()}
         >
           <BarChart3 className="h-4 w-4" /> Generate report
         </Button>

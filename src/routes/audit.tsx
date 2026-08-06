@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { seoQueries, type Row } from "@/lib/seo-queries";
 import { seoHead } from "@/lib/seo-head";
-import { useRecordActions } from "@/lib/use-seo-actions";
+import { useSiteAudit } from "@/lib/use-seo-actions";
 
 export const Route = createFileRoute("/audit")({
   head: seoHead(
@@ -31,7 +31,7 @@ type Breakdown = Record<string, number>;
 
 function AuditScreen() {
   const audits = useQuery(seoQueries.audits());
-  const { insert } = useRecordActions();
+  const audit = useSiteAudit();
 
   const all = audits.data ?? [];
   const latest = all[0];
@@ -44,22 +44,10 @@ function AuditScreen() {
       actions={
         <Button
           size="sm"
-          disabled={insert.isPending}
-          onClick={() =>
-            insert.mutate({
-              table: "seo_audits",
-              values: {
-                name: `Manual audit · ${new Date().toLocaleDateString("en-US")}`,
-                status: "running",
-                score: 0,
-                pages_crawled: 0,
-                issues_found: 0,
-                started_at: new Date().toISOString(),
-              },
-            })
-          }
+          disabled={audit.isPending}
+          onClick={() => audit.mutate()}
         >
-          <Play className="h-4 w-4" /> Run audit
+          <Play className={audit.isPending ? "h-4 w-4 animate-pulse" : "h-4 w-4"} /> Run audit
         </Button>
       }
     >

@@ -81,6 +81,28 @@ export const deleteRecord = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+export const recrawlUrl = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => z.object({ id: z.string().uuid() }).parse(input))
+  .handler(async ({ data }) => {
+    const { recrawlIndexingRecord } = await import("@/lib/seo-operations.server");
+    return recrawlIndexingRecord(data.id);
+  });
+
+export const runTechnicalChecks = createServerFn({ method: "POST" }).handler(async () => {
+  const { runLiveTechnicalChecks } = await import("@/lib/seo-operations.server");
+  return runLiveTechnicalChecks();
+});
+
+export const runSiteAudit = createServerFn({ method: "POST" }).handler(async () => {
+  const { runSiteAuditOperation } = await import("@/lib/seo-operations.server");
+  return runSiteAuditOperation();
+});
+
+export const generateSeoReport = createServerFn({ method: "POST" }).handler(async () => {
+  const { generateSeoReportOperation } = await import("@/lib/seo-operations.server");
+  return generateSeoReportOperation();
+});
+
 /** Executes an automation now and records the run. */
 export const runAutomation = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => z.object({ id: z.string().uuid() }).parse(input))

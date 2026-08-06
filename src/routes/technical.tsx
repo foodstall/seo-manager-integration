@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Gauge } from "lucide-react";
+import { Gauge, RefreshCw } from "lucide-react";
 
 import { SeoShell } from "@/components/seo/SeoShell";
 import { DataTable } from "@/components/seo/DataTable";
@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { seoQueries, type Row } from "@/lib/seo-queries";
 import { seoHead } from "@/lib/seo-head";
-import { useRecordActions } from "@/lib/use-seo-actions";
+import { useTechnicalChecks } from "@/lib/use-seo-actions";
 
 export const Route = createFileRoute("/technical")({
   head: seoHead(
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/technical")({
 
 function TechnicalScreen() {
   const checks = useQuery(seoQueries.technicalChecks());
-  const { update } = useRecordActions();
+  const run = useTechnicalChecks();
 
   const all = checks.data ?? [];
   const passing = all.filter((c) => c.status === "pass").length;
@@ -37,7 +37,7 @@ function TechnicalScreen() {
   const categories = [...new Set(all.map((c) => c.category))];
 
   return (
-    <SeoShell title="Technical SEO" description="Continuous checks across crawlability, markup and speed.">
+    <SeoShell title="Technical SEO" description="Continuous checks across crawlability, markup and speed." actions={<Button size="sm" disabled={run.isPending} onClick={() => run.mutate()}><RefreshCw className={run.isPending ? "h-4 w-4 animate-spin" : "h-4 w-4"} /> Run live checks</Button>}>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <KpiCard label="Checks" value={all.length} icon={Gauge} />
         <KpiCard label="Passing" value={passing} />
@@ -76,13 +76,8 @@ function TechnicalScreen() {
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() =>
-                          update.mutate({
-                            table: "seo_technical_checks",
-                            id: c.id,
-                            values: { last_checked_at: new Date().toISOString() },
-                          })
-                        }
+                        disabled={run.isPending}
+                        onClick={() => run.mutate()}
                       >
                         Re-run
                       </Button>
