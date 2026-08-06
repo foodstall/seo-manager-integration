@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      seo_activity_log: {
+        Row: {
+          action: string
+          actor: string
+          approval_ref: string | null
+          context: Json
+          id: string
+          occurred_at: string
+          record_id: string | null
+          table_name: string
+        }
+        Insert: {
+          action: string
+          actor?: string
+          approval_ref?: string | null
+          context?: Json
+          id?: string
+          occurred_at?: string
+          record_id?: string | null
+          table_name: string
+        }
+        Update: {
+          action?: string
+          actor?: string
+          approval_ref?: string | null
+          context?: Json
+          id?: string
+          occurred_at?: string
+          record_id?: string | null
+          table_name?: string
+        }
+        Relationships: []
+      }
       seo_ad_campaigns: {
         Row: {
           budget: number

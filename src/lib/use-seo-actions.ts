@@ -4,9 +4,13 @@ import { toast } from "sonner";
 
 import {
   deleteRecord,
+  generateSeoReport,
   generateWithAi,
   insertRecord,
   runAutomation,
+  runSiteAudit,
+  runTechnicalChecks,
+  recrawlUrl,
   syncSearchConsole,
   syncSemrush,
   updateRecord,
@@ -81,6 +85,46 @@ export function useRunAutomation() {
     mutationFn: (id: string) => run({ data: { id } }),
     onSuccess: (result) => {
       toast.success(result.message);
+      void invalidate();
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+}
+
+function useSeoOperation<T>(serverFn: (options?: { data?: never }) => Promise<T>, success: (result: T) => string) {
+  const invalidate = useInvalidate();
+  return useMutation({
+    mutationFn: () => serverFn(),
+    onSuccess: (result) => {
+      toast.success(success(result));
+      void invalidate();
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+}
+
+export function useSiteAudit() {
+  const run = useServerFn(runSiteAudit);
+  return useSeoOperation(run, (result) => `Audit complete · score ${result.score}`);
+}
+
+export function useTechnicalChecks() {
+  const run = useServerFn(runTechnicalChecks);
+  return useSeoOperation(run, (result) => `${result.checked} live technical checks completed`);
+}
+
+export function useGenerateReport() {
+  const run = useServerFn(generateSeoReport);
+  return useSeoOperation(run, () => "SEO report generated from live records");
+}
+
+export function useRecrawlUrl() {
+  const invalidate = useInvalidate();
+  const run = useServerFn(recrawlUrl);
+  return useMutation({
+    mutationFn: (id: string) => run({ data: { id } }),
+    onSuccess: (result) => {
+      toast.success(`Live crawl completed · HTTP ${result.httpStatus}`);
       void invalidate();
     },
     onError: (e: Error) => toast.error(e.message),

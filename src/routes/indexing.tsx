@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { seoQueries, type Row } from "@/lib/seo-queries";
 import { seoHead } from "@/lib/seo-head";
-import { useRecordActions } from "@/lib/use-seo-actions";
+import { useRecordActions, useRecrawlUrl } from "@/lib/use-seo-actions";
 
 export const Route = createFileRoute("/indexing")({
   head: seoHead(
@@ -30,7 +30,8 @@ export const Route = createFileRoute("/indexing")({
 
 function IndexingScreen() {
   const records = useQuery(seoQueries.indexing());
-  const { insert, update } = useRecordActions();
+  const { insert } = useRecordActions();
+  const recrawl = useRecrawlUrl();
   const [url, setUrl] = useState("");
 
   const all = records.data ?? [];
@@ -148,13 +149,8 @@ function IndexingScreen() {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() =>
-                        update.mutate({
-                          table: "seo_indexing_records",
-                          id: r.id,
-                          values: { crawl_status: "queued" },
-                        })
-                      }
+                      disabled={recrawl.isPending}
+                      onClick={() => recrawl.mutate(r.id)}
                     >
                       Recrawl
                     </Button>

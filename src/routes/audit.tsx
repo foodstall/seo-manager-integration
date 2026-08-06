@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Play, Shield } from "lucide-react";
+import { History, Play, Shield } from "lucide-react";
 
 import { SeoShell } from "@/components/seo/SeoShell";
 import { DataTable } from "@/components/seo/DataTable";
@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { seoQueries, type Row } from "@/lib/seo-queries";
 import { seoHead } from "@/lib/seo-head";
-import { useRecordActions } from "@/lib/use-seo-actions";
+import { useSiteAudit } from "@/lib/use-seo-actions";
 
 export const Route = createFileRoute("/audit")({
   head: seoHead(
@@ -31,7 +31,8 @@ type Breakdown = Record<string, number>;
 
 function AuditScreen() {
   const audits = useQuery(seoQueries.audits());
-  const { insert } = useRecordActions();
+  const activity = useQuery(seoQueries.activity());
+  const audit = useSiteAudit();
 
   const all = audits.data ?? [];
   const latest = all[0];
@@ -44,22 +45,10 @@ function AuditScreen() {
       actions={
         <Button
           size="sm"
-          disabled={insert.isPending}
-          onClick={() =>
-            insert.mutate({
-              table: "seo_audits",
-              values: {
-                name: `Manual audit · ${new Date().toLocaleDateString("en-US")}`,
-                status: "running",
-                score: 0,
-                pages_crawled: 0,
-                issues_found: 0,
-                started_at: new Date().toISOString(),
-              },
-            })
-          }
+          disabled={audit.isPending}
+          onClick={() => audit.mutate()}
         >
-          <Play className="h-4 w-4" /> Run audit
+          <Play className={audit.isPending ? "h-4 w-4 animate-pulse" : "h-4 w-4"} /> Run audit
         </Button>
       }
     >
@@ -111,6 +100,23 @@ function AuditScreen() {
                     <span className="text-xs text-muted-foreground">{formatDateTime(a.completed_at)}</span>
                   ),
                 },
+              ]}
+            />
+          )}
+        </QueryBoundary>
+      </Panel>
+
+      <Panel className="mt-4" title="Immutable activity trail" description="Database-recorded changes across the SEO Manager">
+        <QueryBoundary query={activity} empty="No SEO Manager changes recorded yet.">
+          {(rows) => (
+            <DataTable<Row<"seo_activity_log">>
+              rows={rows}
+              columns={[
+                { key: "time", header: "Time", render: (row) => <span className="text-xs text-muted-foreground">{formatDateTime(row.occurred_at)}</span> },
+                { key: "action", header: "Action", render: (row) => <StatusPill value={row.action.toLowerCase()} /> },
+                { key: "table", header: "Area", render: (row) => <span className="font-medium">{row.table_name.replace(/^seo_/, "").replace(/_/g, " ")}</span> },
+                { key: "record", header: "Record", render: (row) => <span className="numeric text-xs text-muted-foreground">{row.record_id?.slice(0, 8) ?? "—"}</span> },
+                { key: "actor", header: "Actor", render: (row) => <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground"><History className="h-3.5 w-3.5" />{row.actor.replace(/_/g, " ")}</span> },
               ]}
             />
           )}
