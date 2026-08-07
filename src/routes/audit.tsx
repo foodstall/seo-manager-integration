@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
 import { History, Play, Shield } from "lucide-react";
 
 import { SeoShell } from "@/components/seo/SeoShell";
@@ -12,6 +13,14 @@ import {
   formatDateTime,
   nf,
 } from "@/components/seo/primitives";
+import {
+  ALL,
+  DateFilter,
+  FilterBar,
+  SearchFilter,
+  SelectFilter,
+  optionsFrom,
+} from "@/components/seo/FilterBar";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { seoQueries, type Row } from "@/lib/seo-queries";
@@ -36,6 +45,44 @@ function AuditScreen() {
 
   const all = audits.data ?? [];
   const latest = all[0];
+
+  const [auditSearch, setAuditSearch] = useState("");
+  const [auditStatus, setAuditStatus] = useState(ALL);
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [logTable, setLogTable] = useState(ALL);
+  const [logAction, setLogAction] = useState(ALL);
+
+  const auditStatuses = useMemo(() => optionsFrom(all, (a) => a.status), [all]);
+  const filteredAudits = useMemo(() => {
+    const term = auditSearch.trim().toLowerCase();
+    const fromTime = from ? new Date(`${from}T00:00:00`).getTime() : null;
+    const toTime = to ? new Date(`${to}T23:59:59`).getTime() : null;
+    return all.filter((a) => {
+      if (term && !a.name.toLowerCase().includes(term)) return false;
+      if (auditStatus !== ALL && a.status !== auditStatus) return false;
+      const started = new Date(a.started_at).getTime();
+      if (fromTime !== null && started < fromTime) return false;
+      if (toTime !== null && started > toTime) return false;
+      return true;
+    });
+  }, [all, auditSearch, auditStatus, from, to]);
+  const auditFiltersActive =
+    auditSearch !== "" || auditStatus !== ALL || from !== "" || to !== "";
+
+  const activityRows = activity.data ?? [];
+  const logTables = useMemo(() => optionsFrom(activityRows, (r) => r.table_name), [activityRows]);
+  const logActions = useMemo(() => optionsFrom(activityRows, (r) => r.action), [activityRows]);
+  const filteredActivity = useMemo(
+    () =>
+      activityRows.filter(
+        (r) =>
+          (logTable === ALL || r.table_name === logTable) &&
+          (logAction === ALL || r.action === logAction),
+      ),
+    [activityRows, logAction, logTable],
+  );
+  const logFiltersActive = logTable !== ALL || logAction !== ALL;
   const breakdown = (latest?.breakdown ?? {}) as Breakdown;
 
   return (
@@ -78,10 +125,35 @@ function AuditScreen() {
       </Panel>
 
       <Panel className="mt-4" title="Audit history">
+        <FilterBar
+          active={auditFiltersActive}
+          onReset={() => {
+            setAuditSearch("");
+            setAuditStatus(ALL);
+            setFrom("");
+            setTo("");
+          }}
+          resultLabel={`${filteredAudits.length} of ${all.length} audits`}
+        >
+          <SearchFilter
+            value={auditSearch}
+            onChange={setAuditSearch}
+            label="Search audits by name"
+            placeholder="Search audits…"
+          />
+          <SelectFilter
+            value={auditStatus}
+            onChange={setAuditStatus}
+            label="Status"
+            options={auditStatuses}
+          />
+          <DateFilter value={from} onChange={setFrom} label="From" />
+          <DateFilter value={to} onChange={setTo} label="To" />
+        </FilterBar>
         <QueryBoundary query={audits} empty="No audits run yet.">
           {() => (
             <DataTable<Row<"seo_audits">>
-              rows={all}
+              rows={filteredAudits}
               columns={[
                 { key: "name", header: "Audit", render: (a) => <span className="font-medium">{a.name}</span> },
                 { key: "status", header: "Status", render: (a) => <StatusPill value={a.status} /> },
@@ -107,16 +179,32 @@ function AuditScreen() {
       </Panel>
 
       <Panel className="mt-4" title="Immutable activity trail" description="Database-recorded changes across the SEO Manager">
+        <FilterBar
+          active={logFiltersActive}
+          onReset={() => {
+            setLogTable(ALL);
+            setLogAction(ALL);
+          }}
+          resultLabel={`${filteredActivity.length} of ${activityRows.length} entries`}
+        >
+          <SelectFilter value={logTable} onChange={setLogTable} label="Area" options={logTables} />
+          <SelectFilter
+            value={logAction}
+            onChange={setLogAction}
+            label="Action"
+            options={logActions}
+          />
+        </FilterBar>
         <QueryBoundary query={activity} empty="No SEO Manager changes recorded yet.">
-          {(rows) => (
+          {() => (
             <DataTable<Row<"seo_activity_log">>
-              rows={rows}
+              rows={filteredActivity}
               columns={[
                 { key: "time", header: "Time", render: (row) => <span className="text-xs text-muted-foreground">{formatDateTime(row.occurred_at)}</span> },
                 { key: "action", header: "Action", render: (row) => <StatusPill value={row.action.toLowerCase()} /> },
                 { key: "table", header: "Area", render: (row) => <span className="font-medium">{row.table_name.replace(/^seo_/, "").replace(/_/g, " ")}</span> },
                 { key: "record", header: "Record", render: (row) => <span className="numeric text-xs text-muted-foreground">{row.record_id?.slice(0, 8) ?? "—"}</span> },
-                { key: "actor", header: "Actor", render: (row) => <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground"><History className="h-3.5 w-3.5" />{row.actor.replace(/_/g, " ")}</span> },
+                { key: "actor", header: "Actor", render: (row) => <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground"><History aria-hidden="true" className="h-3.5 w-3.5" />{row.actor.replace(/_/g, " ")}</span> },
               ]}
             />
           )}

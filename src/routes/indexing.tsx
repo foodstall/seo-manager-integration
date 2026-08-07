@@ -13,6 +13,7 @@ import {
   formatDateTime,
   nf,
 } from "@/components/seo/primitives";
+import { ALL, FilterBar, SearchFilter, SelectFilter, optionsFrom } from "@/components/seo/FilterBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { seoQueries, type Row } from "@/lib/seo-queries";
@@ -38,6 +39,36 @@ function IndexingScreen() {
   const indexed = all.filter((r) => r.index_state === "indexed").length;
   const excluded = all.filter((r) => r.index_state !== "indexed").length;
   const errors = all.filter((r) => r.http_status >= 400).length;
+
+  const [search, setSearch] = useState("");
+  const [source, setSource] = useState(ALL);
+  const [crawlStatus, setCrawlStatus] = useState(ALL);
+  const [indexState, setIndexState] = useState(ALL);
+  const [httpClass, setHttpClass] = useState(ALL);
+
+  const sourceOptions = useMemo(() => optionsFrom(all, (r) => r.source), [all]);
+  const crawlOptions = useMemo(() => optionsFrom(all, (r) => r.crawl_status), [all]);
+  const stateOptions = useMemo(() => optionsFrom(all, (r) => r.index_state), [all]);
+  const httpOptions = useMemo(
+    () => optionsFrom(all, (r) => `${Math.floor(r.http_status / 100)}xx`),
+    [all],
+  );
+
+  const filtered = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    return all.filter((r) => {
+      if (term && !r.url.toLowerCase().includes(term) && !(r.notes ?? "").toLowerCase().includes(term))
+        return false;
+      if (source !== ALL && r.source !== source) return false;
+      if (crawlStatus !== ALL && r.crawl_status !== crawlStatus) return false;
+      if (indexState !== ALL && r.index_state !== indexState) return false;
+      if (httpClass !== ALL && `${Math.floor(r.http_status / 100)}xx` !== httpClass) return false;
+      return true;
+    });
+  }, [all, crawlStatus, httpClass, indexState, search, source]);
+
+  const filtersActive =
+    search !== "" || source !== ALL || crawlStatus !== ALL || indexState !== ALL || httpClass !== ALL;
 
   const bySource = useMemo(() => {
     const map = new Map<string, number>();
@@ -76,7 +107,7 @@ function IndexingScreen() {
               )
             }
           >
-            <Plus className="h-4 w-4" /> Submit URL
+            <Plus aria-hidden="true" className="h-4 w-4" /> Submit URL
           </Button>
         </div>
       }
@@ -102,10 +133,42 @@ function IndexingScreen() {
       </Panel>
 
       <Panel className="mt-4" title="Crawl log">
+        <FilterBar
+          active={filtersActive}
+          onReset={() => {
+            setSearch("");
+            setSource(ALL);
+            setCrawlStatus(ALL);
+            setIndexState(ALL);
+            setHttpClass(ALL);
+          }}
+          resultLabel={`${filtered.length} of ${all.length} URLs`}
+        >
+          <SearchFilter
+            value={search}
+            onChange={setSearch}
+            label="Search URLs and notes"
+            placeholder="Search URLs…"
+          />
+          <SelectFilter value={source} onChange={setSource} label="Source" options={sourceOptions} />
+          <SelectFilter
+            value={crawlStatus}
+            onChange={setCrawlStatus}
+            label="Crawl status"
+            options={crawlOptions}
+          />
+          <SelectFilter
+            value={indexState}
+            onChange={setIndexState}
+            label="Index state"
+            options={stateOptions}
+          />
+          <SelectFilter value={httpClass} onChange={setHttpClass} label="HTTP" options={httpOptions} />
+        </FilterBar>
         <QueryBoundary query={records} empty="No URLs discovered yet.">
           {() => (
             <DataTable<Row<"seo_indexing_records">>
-              rows={all}
+              rows={filtered}
               columns={[
                 {
                   key: "url",
