@@ -150,8 +150,8 @@ export function QueryBoundary<T>({
         role="alert"
         className="rounded-lg border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive"
       >
-        We couldn\u2019t load this data right now. Please retry in a moment \u2014 if it keeps failing, check Diagnostics
-        for the captured error.
+        We couldn&rsquo;t load this data right now. Please retry in a moment &mdash; if it keeps failing, check
+        Diagnostics for the captured error.
       </div>
     );
   }
