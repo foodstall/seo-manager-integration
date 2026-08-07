@@ -23,7 +23,7 @@ export function KpiCard({
     <div className="panel p-4">
       <div className="flex items-start justify-between gap-3">
         <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
-        {Icon ? <Icon className="h-4 w-4 text-primary" /> : null}
+        {Icon ? <Icon aria-hidden="true" className="h-4 w-4 text-primary" /> : null}
       </div>
       <p className="numeric mt-3 text-2xl font-semibold text-foreground">{value}</p>
       <div className="mt-1 flex items-center gap-2">
@@ -112,18 +112,23 @@ export function Panel({
 
 export function LoadingRows({ rows = 5 }: { rows?: number }) {
   return (
-    <div className="space-y-2">
+    <div className="space-y-2" role="status" aria-live="polite" aria-busy="true">
+      <span className="sr-only">Loading data…</span>
       {Array.from({ length: rows }).map((_, i) => (
-        <Skeleton key={i} className="h-10 w-full" />
+        <Skeleton key={i} className="h-10 w-full" aria-hidden="true" />
       ))}
     </div>
   );
 }
 
-export function EmptyState({ message }: { message: string }) {
+export function EmptyState({ message, action }: { message: string; action?: ReactNode }) {
   return (
-    <div className="rounded-lg border border-dashed border-border px-6 py-10 text-center text-sm text-muted-foreground">
-      {message}
+    <div
+      role="status"
+      className="rounded-lg border border-dashed border-border px-6 py-10 text-center text-sm text-muted-foreground"
+    >
+      <p>{message}</p>
+      {action ? <div className="mt-3 flex justify-center">{action}</div> : null}
     </div>
   );
 }
@@ -138,12 +143,18 @@ export function QueryBoundary<T>({
   empty?: string;
 }) {
   if (query.isLoading) return <LoadingRows />;
-  if (query.error)
+  if (query.error) {
+    if (typeof console !== "undefined") console.error("[seo] query failed", query.error);
     return (
-      <div className="rounded-lg border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
-        {(query.error as Error).message}
+      <div
+        role="alert"
+        className="rounded-lg border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+      >
+        We couldn\u2019t load this data right now. Please retry in a moment \u2014 if it keeps failing, check Diagnostics
+        for the captured error.
       </div>
     );
+  }
   const rows = query.data ?? [];
   if (rows.length === 0) return <EmptyState message={empty} />;
   return <>{children(rows)}</>;
