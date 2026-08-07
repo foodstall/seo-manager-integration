@@ -68,6 +68,7 @@ function CompetitorsScreen() {
                 { key: "backlinks", header: "Backlinks", render: (c) => nf.format(c.backlinks_count) },
                 { key: "traffic", header: "Traffic", render: (c) => nf.format(c.traffic_estimate) },
                 { key: "da", header: "DA", render: (c) => c.domain_authority },
+                actionsColumn<Row<"seo_competitors">>(entities.competitors),
               ]}
             />
           )}
