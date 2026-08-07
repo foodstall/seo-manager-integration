@@ -16,8 +16,8 @@ import {
   updateRecord,
 } from "@/lib/seo.functions";
 
-type SeoValue = string | number | boolean | null | string[];
-type SeoTableName =
+export type SeoValue = string | number | boolean | null | string[];
+export type SeoTableName =
   | "seo_pages" | "seo_keywords" | "seo_meta_rules" | "seo_indexing_records"
   | "seo_automations" | "seo_issues" | "seo_reports" | "seo_audits"
   | "seo_backlinks" | "seo_competitors" | "seo_ai_suggestions" | "seo_content_items"
