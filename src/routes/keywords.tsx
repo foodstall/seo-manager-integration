@@ -17,6 +17,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { actionsColumn, CreateRecordButton } from "@/components/seo/RecordDialog";
+import { entities } from "@/lib/seo-entities";
 import { seoQueries, type Row } from "@/lib/seo-queries";
 import { seoHead } from "@/lib/seo-head";
 import { useRecordActions, useSemrushSync } from "@/lib/use-seo-actions";
@@ -147,7 +149,7 @@ function KeywordsScreen() {
                 className="w-52 pl-8"
               />
             </div>
-            <AddKeyword />
+            <CreateRecordButton spec={entities.keywords} label="Add keyword" />
           </div>
         }
       >
@@ -187,20 +189,7 @@ function KeywordsScreen() {
                 { key: "intent", header: "Intent", render: (k) => <StatusPill value={k.intent} tone="info" /> },
                 { key: "region", header: "Region", render: (k) => k.region },
                 { key: "status", header: "Status", render: (k) => <StatusPill value={k.status} /> },
-                {
-                  key: "actions",
-                  header: "",
-                  render: (k) => (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      aria-label={`Remove ${k.keyword}`}
-                      onClick={() => remove.mutate({ table: "seo_keywords", id: k.id })}
-                    >
-                      <Trash2 className="h-4 w-4 text-muted-foreground" />
-                    </Button>
-                  ),
-                },
+                actionsColumn<Row<"seo_keywords">>(entities.keywords),
               ]}
             />
           )}
