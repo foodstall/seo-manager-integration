@@ -5,6 +5,8 @@ import { Users } from "lucide-react";
 import { SeoShell } from "@/components/seo/SeoShell";
 import { DataTable } from "@/components/seo/DataTable";
 import { KpiCard, Panel, QueryBoundary, StatusPill, nf } from "@/components/seo/primitives";
+import { actionsColumn, CreateRecordButton } from "@/components/seo/RecordDialog";
+import { entities } from "@/lib/seo-entities";
 import { seoQueries, type Row } from "@/lib/seo-queries";
 import { seoHead } from "@/lib/seo-head";
 
@@ -26,7 +28,11 @@ function CompetitorsScreen() {
   const nameById = new Map(all.map((c) => [c.id, c.name]));
 
   return (
-    <SeoShell title="Competitors" description="Where rivals win and which keywords to take next.">
+    <SeoShell
+      title="Competitors"
+      description="Where rivals win and which keywords to take next."
+      actions={<CreateRecordButton spec={entities.competitors} label="Add competitor" />}
+    >
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <KpiCard label="Competitors tracked" value={all.length} icon={Users} />
         <KpiCard label="Keyword gaps" value={nf.format(gapRows.length)} />
@@ -62,6 +68,7 @@ function CompetitorsScreen() {
                 { key: "backlinks", header: "Backlinks", render: (c) => nf.format(c.backlinks_count) },
                 { key: "traffic", header: "Traffic", render: (c) => nf.format(c.traffic_estimate) },
                 { key: "da", header: "DA", render: (c) => c.domain_authority },
+                actionsColumn<Row<"seo_competitors">>(entities.competitors),
               ]}
             />
           )}

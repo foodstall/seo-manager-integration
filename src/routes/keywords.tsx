@@ -1,22 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { Plus, RefreshCw, Search as SearchIcon, Trash2 } from "lucide-react";
+import { RefreshCw, Search as SearchIcon } from "lucide-react";
 
 import { SeoShell } from "@/components/seo/SeoShell";
 import { DataTable } from "@/components/seo/DataTable";
 import { KpiCard, Panel, QueryBoundary, StatusPill, nf } from "@/components/seo/primitives";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
+import { actionsColumn, CreateRecordButton } from "@/components/seo/RecordDialog";
+import { entities } from "@/lib/seo-entities";
 import { seoQueries, type Row } from "@/lib/seo-queries";
 import { seoHead } from "@/lib/seo-head";
 import { useRecordActions, useSemrushSync } from "@/lib/use-seo-actions";
@@ -29,68 +22,6 @@ export const Route = createFileRoute("/keywords")({
   ),
   component: KeywordsScreen,
 });
-
-function AddKeyword() {
-  const { insert } = useRecordActions();
-  const [open, setOpen] = useState(false);
-  const [keyword, setKeyword] = useState("");
-  const [url, setUrl] = useState("");
-  const [volume, setVolume] = useState("0");
-
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size="sm">
-          <Plus className="h-4 w-4" /> Add keyword
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Track a new keyword</DialogTitle>
-        </DialogHeader>
-        <div className="space-y-3">
-          <div className="space-y-1.5">
-            <Label htmlFor="kw">Keyword</Label>
-            <Input id="kw" value={keyword} onChange={(e) => setKeyword(e.target.value)} />
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="kw-url">Target URL</Label>
-            <Input id="kw-url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="/pos-software" />
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="kw-vol">Monthly search volume</Label>
-            <Input id="kw-vol" type="number" value={volume} onChange={(e) => setVolume(e.target.value)} />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button
-            disabled={!keyword.trim() || insert.isPending}
-            onClick={() =>
-              insert.mutate(
-                {
-                  table: "seo_keywords",
-                  values: {
-                    keyword: keyword.trim(),
-                    target_url: url.trim() || null,
-                    search_volume: Number(volume) || 0,
-                    difficulty: 0,
-                    cpc: 0,
-                    intent: "informational",
-                    region: "global",
-                    status: "tracking",
-                  },
-                },
-                { onSuccess: () => setOpen(false) },
-              )
-            }
-          >
-            Save
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-}
 
 function KeywordsScreen() {
   const keywords = useQuery(seoQueries.keywords());
@@ -147,7 +78,7 @@ function KeywordsScreen() {
                 className="w-52 pl-8"
               />
             </div>
-            <AddKeyword />
+            <CreateRecordButton spec={entities.keywords} label="Add keyword" />
           </div>
         }
       >
@@ -187,20 +118,7 @@ function KeywordsScreen() {
                 { key: "intent", header: "Intent", render: (k) => <StatusPill value={k.intent} tone="info" /> },
                 { key: "region", header: "Region", render: (k) => k.region },
                 { key: "status", header: "Status", render: (k) => <StatusPill value={k.status} /> },
-                {
-                  key: "actions",
-                  header: "",
-                  render: (k) => (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      aria-label={`Remove ${k.keyword}`}
-                      onClick={() => remove.mutate({ table: "seo_keywords", id: k.id })}
-                    >
-                      <Trash2 className="h-4 w-4 text-muted-foreground" />
-                    </Button>
-                  ),
-                },
+                actionsColumn<Row<"seo_keywords">>(entities.keywords),
               ]}
             />
           )}
