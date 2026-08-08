@@ -94,23 +94,23 @@ export function Panel({
   className?: string | undefined;
 }) {
   return (
-    <Card className={cn("panel gap-0 border-border py-0", className)}>
+    <div className={cn("panel overflow-hidden", className)}>
       {title ? (
-        <CardHeader className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4 text-left [display:flex]">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4">
           <div className="min-w-0 flex-1">
-            <CardTitle className="text-base font-semibold">{title}</CardTitle>
-
+            <h2 className="text-base font-semibold leading-none">{title}</h2>
             {description ? (
-              <p className="mt-0.5 text-sm text-muted-foreground">{description}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{description}</p>
             ) : null}
           </div>
           {actions}
-        </CardHeader>
+        </div>
       ) : null}
-      <CardContent className="px-5 py-4">{children}</CardContent>
-    </Card>
+      <div className="px-5 py-4">{children}</div>
+    </div>
   );
 }
+
 
 export function LoadingRows({ rows = 5 }: { rows?: number }) {
   return (
