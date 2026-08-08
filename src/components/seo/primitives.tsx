@@ -20,23 +20,24 @@ export function KpiCard({
 }) {
   const positive = delta?.startsWith("+");
   return (
-    <div className="panel p-4">
-      <div className="flex items-start justify-between gap-3">
-        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
-        {Icon ? <Icon aria-hidden="true" className="h-4 w-4 text-primary" /> : null}
+    <div className="bento-card hover-lift !p-4">
+      <div className="flex items-start justify-between gap-2">
+        <p className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</p>
+        {Icon ? <Icon aria-hidden="true" className="h-4 w-4 shrink-0 text-primary-glow" /> : null}
       </div>
-      <p className="numeric mt-3 text-2xl font-semibold text-foreground">{value}</p>
-      <div className="mt-1 flex items-center gap-2">
+      <p className="numeric mt-1 truncate text-xl font-bold text-foreground">{value}</p>
+      <div className="mt-2 flex items-center gap-2 text-[11px]">
         {delta ? (
-          <span className={cn("text-xs font-medium", positive ? "text-success" : "text-destructive")}>
+          <span className={cn("font-medium", positive ? "text-accent-emerald" : "text-accent-pink")}>
             {delta}
           </span>
         ) : null}
-        {hint ? <span className="text-xs text-muted-foreground">{hint}</span> : null}
+        {hint ? <span className="text-muted-foreground">{hint}</span> : null}
       </div>
     </div>
   );
 }
+
 
 const TONES: Record<string, string> = {
   success: "bg-success/15 text-success",
