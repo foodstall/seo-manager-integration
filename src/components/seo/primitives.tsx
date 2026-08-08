@@ -96,9 +96,10 @@ export function Panel({
   return (
     <Card className={cn("panel gap-0 border-border py-0", className)}>
       {title ? (
-        <CardHeader className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4">
-          <div>
+        <CardHeader className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4 text-left [display:flex]">
+          <div className="min-w-0 flex-1">
             <CardTitle className="text-base font-semibold">{title}</CardTitle>
+
             {description ? (
               <p className="mt-0.5 text-sm text-muted-foreground">{description}</p>
             ) : null}
